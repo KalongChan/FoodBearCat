@@ -1,0 +1,138 @@
+[
+  {
+    "id": "0",
+    "name": "Kung Pao Chicken",
+    "category": "Chinese",
+    "description": "A spicy stir-fried dish made with diced chicken, peanuts, vegetables, and chili peppers in a spicy sauce.",
+    "price": 15,
+    "image": "https://www.example.com/kung-pao-chicken.jpg"
+  },
+  {
+    "id": "1",
+    "name": "Steamed Pork Spare Ribs",
+    "category": "Chinese",
+    "description": "A Cantonese dish made by steaming pork spare ribs with fermented black beans, ginger, and garlic.",
+    "price": 14,
+    "image": "https://www.example.com/steamed-pork-spare-ribs.jpg"
+  },
+  {
+    "id": "2",
+    "name": "Hot and Sour Soup",
+    "category": "Chinese",
+    "description": "A popular Chinese soup made with tofu, mushrooms, bamboo shoots, and eggs in a spicy and sour broth.",
+    "price": 8,
+    "image": "https://www.example.com/hot-and-sour-soup.jpg"
+  },
+  {
+    "id": "3",
+    "name": "Sweet and Sour Pork",
+    "category": "Chinese",
+    "description": "A classic Chinese dish made with battered and fried pork pieces in a sweet and sour sauce, served over steamed rice.",
+    "price": 16,
+    "image": "https://www.example.com/sweet-and-sour-pork.jpg"
+  },
+  {
+    "id": "4",
+    "name": "Ma Po Tofu",
+    "category": "Chinese",
+    "description": "A spicy Sichuan dish made with soft tofu, ground pork, and chili pepper paste in a spicy bean sauce.",
+    "price": 13,
+    "image": "https://www.example.com/ma-po-tofu.jpg"
+  },
+  {
+    "id": "5",
+    "name": "Ramen",
+    "category": "Japanese",
+    "description": "A Japanese noodle soup dish made with Chinese-style wheat noodles served in a meat or fish-based broth, often flavored with soy sauce or miso, and uses toppings such as sliced pork, dried seaweed, and green onions.",
+    "price": 12,
+    "image": "https://www.example.com/ramen.jpg"
+  },
+  {
+    "id": "6",
+    "name": "Sushi",
+    "category": "Japanese",
+    "description": "A traditional Japanese dish consisting of cooked vinegared rice combined with other ingredients such as raw fish, vegetables, and egg.",
+    "price": 15,
+    "image": "https://www.example.com/sushi.jpg"
+  },
+  {
+    "id": "7",
+    "name": "Tempura",
+    "category": "Japanese",
+    "description": "A dish made of seafood, vegetables or mushrooms that have been battered and deep-fried.",
+    "price": 14,
+    "image": "https://www.example.com/tempura.jpg"
+  },
+  {
+    "id": "8",
+    "name": "Udon",
+    "category": "Japanese",
+    "description": "A type of thick wheat noodle commonly served in a mild broth or stir-fried with vegetables.",
+    "price": 11,
+    "image": "https://www.example.com/udon.jpg"
+  },
+  {
+    "id": "9",
+    "name": "Donburi",
+    "category": "Japanese",
+    "description": "A Japanese dish consisting of rice topped with ingredients such as beef, chicken, fish, or vegetables in a sauce.",
+    "price": 10,
+    "image": "https://www.example.com/donburi.jpg"
+  },
+  {
+    "id": "10",
+    "name": "Hamburger",
+    "category": "American",
+    "description": "A sandwich consisting of a cooked patty of ground beef, placed between two buns and usually served with lettuce, tomato, and condiments such as ketchup and mustard.",
+    "price": 8,
+    "image": "https://www.example.com/hamburger.jpg"
+  },
+  {
+    "id": "11",
+    "name": "Hot Dog",
+    "category": "American",
+    "description": "A grilled or steamed sausage sandwich served in a long bun and topped with condiments such as ketchup, mustard, and relish.",
+    "price": 5,
+    "image": "https://www.example.com/hotdog.jpg"
+  },
+  {
+    "id": "12",
+    "name": "Spaghetti Carbonara",
+    "category": "Italian",
+    "description": "A pasta dish made with eggs, cheese, bacon, and black pepper. The eggs and cheese are mixed together with cooked spaghetti to create a creamy sauce.",
+    "price": 14,
+    "image": "https://www.example.com/carbonara.jpg"
+  },
+  {
+    "id": "13",
+    "name": "Pizza Margherita",
+    "category": "Italian",
+    "description": "A type of pizza made with a simple tomato sauce, mozzarella cheese, and fresh basil. It is meant to represent the colors of the Italian flag.",
+    "price": 12,
+    "image": "https://www.example.com/margherita.jpg"
+  },
+  {
+    "id": "14",
+    "name": "Tom Yum Soup",
+    "category": "Thai",
+    "description": "A sour and spicy soup made with shrimp, lemongrass, kaffir lime leaves, and chili paste.",
+    "price": 10,
+    "image": "https://www.example.com/tomyum.jpg"
+  },
+  {
+    "id": "15",
+    "name": "Pad Thai",
+    "category": "Thai",
+    "description": "A stir-fried rice noodle dish typically made with eggs, peanuts, and vegetables, and seasoned with a combination of fish sauce, sugar, and vinegar.",
+    "price": 12,
+    "image": "https://www.example.com/padthai.jpg"
+  },
+  {
+    "id": "16",
+    "name": "Roast Beef and Yorkshire Pudding",
+    "category": "Others",
+    "description": "Roast beef served with a large, puffed-up Yorkshire pudding on the side. The beef is typically roasted until it is medium rare and served with gravy.",
+    "price": 18,
+    "image": "https://www.example.com/roastbeef.jpg"
+  }
+]

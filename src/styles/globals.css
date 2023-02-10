@@ -1,0 +1,52 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  color: #1f2937;
+  background-color: #fcfcfc;
+  /* background-color: #f3f4f6; */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* button.main-button {
+  outline: none;
+  width: 10rem;
+  padding: 1rem 1.5rem;
+  margin-right: 20px;
+  border: 1px solid #ab3c2a;
+  background-color: #ab3c2a;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+button.sub-button {
+  outline: none;
+  width: 10rem;
+  padding: 1rem 1.5rem;
+  margin-right: 20px;
+  border: 1px solid #ab3c2a;
+  background-color: #fff;
+  color: #ab3c2a;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+button.active {
+  background-color: #fff;
+  color: #ab3c2a;
+  transition: 0.2s ease-out;
+} */

@@ -1,0 +1,68 @@
+.items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  flex-wrap: wrap;
+}
+
+.left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info {
+  width: 50%;
+  margin-left: 50px;
+}
+
+.info h3 {
+  font-size: 1.5rem;
+}
+
+.description,
+.subtotal {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.1rem;
+}
+
+.subtotal {
+  font-weight: 700;
+}
+
+.qty-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-group button {
+  width: 40px;
+  padding: 0.75rem 0;
+  margin: 10px 0;
+
+  border: 1px solid #ab3c2a;
+  background-color: #ab3c2a;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.btn-group span {
+  padding: 0 25px;
+}
+
+.remove-btn {
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .btn-group {
+    width: 100%;
+  }
+}

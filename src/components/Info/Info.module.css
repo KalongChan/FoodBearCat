@@ -1,0 +1,33 @@
+.info {
+  background-color: mediumseagreen;
+}
+
+.info-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-item {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.info-item p {
+  font-size: 1.25rem;
+}
+
+.info {
+  text-align: center;
+}
+
+.info-topic {
+  font-size: 2.5rem;
+  margin: 1.5rem 0;
+}
+
+.info-text {
+  margin: 0 auto;
+  width: 50%;
+  font-size: 1.25rem;
+}
