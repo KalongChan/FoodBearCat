@@ -1,0 +1,18 @@
+.menu-addbtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.menu-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -34,8 +34,9 @@ const Food = ({_id, name, category, description, price, image}) => {
         <div className={classes["menu-category"]}>{category}</div>
 
         <Image
+          src={image}
           // src={`/img/Menu/${index}.jpg`}
-          src="/img/delivery_jitensya.png"
+          // src="/img/delivery_jitensya.png"
           alt=""
           height={400}
           width={400}

@@ -22,8 +22,12 @@ const Banner = () => {
                 Order food to your door <span>NOW!</span>
               </h2>
               <div className={classes["hero-button"]}>
-                <button onClick={orderNow}>Order Now</button>
-                <button onClick={orderNow}>View All Foods</button>
+                <button className={classes["main-button"]} onClick={orderNow}>
+                  Order Now
+                </button>
+                <button className={classes["sub-button"]} onClick={orderNow}>
+                  View All Foods
+                </button>
               </div>
             </Slide>
           </div>
