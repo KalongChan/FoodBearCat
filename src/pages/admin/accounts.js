@@ -1,43 +1,61 @@
 import Link from "next/link";
-import {useRouter} from "next/router";
 import classes from "./menus.module.css";
+import Table from "../../UI/Table/Table";
 import axios from "axios";
+import {useMemo} from "react";
+import Container from "@/UI/Container/Container";
 axios.defaults.baseURL = "http://localhost:3000";
 
 const Account = (props) => {
-  const router = useRouter();
+  const columns = useMemo(
+    () => [
+      {
+        Header: "ID",
+        accessor: "_id",
+      },
+      {
+        Header: "Name",
+        accessor: "account",
+      },
+      {
+        Header: "User Type",
+        accessor: "type",
+      },
+      {
+        Header: "Action",
+        accessor: "action",
+        Cell: ({row}) => (
+          <Link
+            className={classes["edit-btn"]}
+            href={`account/${row.original._id}`}
+          >
+            {row.original.action}
+          </Link>
+        ),
+      },
+    ],
+    []
+  );
+
+  let menusWithAction = [];
+  props.accounts.map((account) => {
+    menusWithAction.push({...account, action: "Edit"});
+  });
+
+  const data = useMemo(() => menusWithAction, []);
 
   return (
-    <div className={classes.menu}>
-      <div className={classes["menu-addbtn"]}>
-        <button onClick={() => router.push("add-account")}>Add</button>
-      </div>
-      <div className={classes["menu-header"]}>
-        <div>id</div>
-        <div>Name</div>
-        <div>User Type</div>
-      </div>
-      {props.accounts?.map((account) => (
-        <div key={account._id} className={classes["menu-row"]}>
-          <div className={classes["menu-item"]}>{account._id}</div>
-          <Link
-            href={`account/${account._id}`}
-            className={classes["menu-item"]}
-          >
-            {account.name}
+    <Container>
+      <div className={classes["table-wrapper"]}>
+        <div className={classes["page-header"]}>
+          <div className={classes["page-title"]}>Accounts</div>
+          <Link className={classes["add-btn"]} href="add-menu">
+            Add
           </Link>
-          <div className={classes["menu-item"]}>{account.account}</div>
-          <div className={classes["menu-item"]}>{account.type}</div>
-
-          <div className={classes["menu-item"]}>
-            <button onClick={() => router.push(`account/${account._id}`)}>
-              Edit
-            </button>
-            <button>Delete</button>
-          </div>
         </div>
-      ))}
-    </div>
+        <Table columns={columns} data={[...data]} />
+      </div>
+    </Container>
   );
 };
 export default Account;

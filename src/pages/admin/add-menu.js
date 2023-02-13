@@ -137,7 +137,6 @@ export default addMenu;
 export const getStaticProps = async () => {
   let categories = await axios.get("/api/categories");
   categories = categories.data;
-  console.log(categories);
 
   return {
     props: {

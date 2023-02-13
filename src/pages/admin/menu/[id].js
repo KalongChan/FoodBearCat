@@ -79,79 +79,81 @@ const Menu = ({selectedMenu, categories}) => {
 
   return (
     <Container>
-      <div>
-        <h2>Edit Menu</h2>
-        <button onClick={deleteHandler}>Delete</button>
-      </div>
-      <div className={classes.form}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={menuSchema}
-          onSubmit={editHandler}
-        >
-          {({errors, touched}) => (
-            <Form>
-              {menuForm.map((item, index) =>
-                item.type === "category" ? (
-                  <Fragment key={index + "_category"}>
-                    <div
-                      className={`${classes["form-item"]} 
+      <div className={classes["form-wrapper"]}>
+        <div className={classes["form-header"]}>
+          <h2>Edit Menu</h2>
+          <button onClick={deleteHandler}>Delete</button>
+        </div>
+        <div className={classes.form}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={menuSchema}
+            onSubmit={editHandler}
+          >
+            {({errors, touched}) => (
+              <Form>
+                {menuForm.map((item, index) =>
+                  item.type === "category" ? (
+                    <Fragment key={index + "_category"}>
+                      <div
+                        className={`${classes["form-item"]} 
                ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                    >
-                      <label htmlFor={item.type}>{item.label}</label>
-
-                      <Field
-                        as="select"
-                        className={classes.input}
-                        name={item.type}
-                        id={item.type}
                       >
-                        <option value="">Select a Category</option>
-                        {categories.map((category) => (
-                          <option value={category.name} key={category.name}>
-                            {category.name}
-                          </option>
-                        ))}
-                      </Field>
-                      {errors[item.type] && touched[item.type] ? (
-                        <div className={classes["error-message"]}>
-                          {errors[item.type]}
-                        </div>
-                      ) : null}
-                    </div>
-                  </Fragment>
-                ) : (
-                  <Fragment key={index + "_others"}>
-                    <div
-                      className={`${classes["form-item"]}
+                        <label htmlFor={item.type}>{item.label}</label>
+
+                        <Field
+                          as="select"
+                          className={classes.input}
+                          name={item.type}
+                          id={item.type}
+                        >
+                          <option value="">Select a Category</option>
+                          {categories.map((category) => (
+                            <option value={category.name} key={category.name}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </Field>
+                        {errors[item.type] && touched[item.type] ? (
+                          <div className={classes["error-message"]}>
+                            {errors[item.type]}
+                          </div>
+                        ) : null}
+                      </div>
+                    </Fragment>
+                  ) : (
+                    <Fragment key={index + "_others"}>
+                      <div
+                        className={`${classes["form-item"]}
                ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                    >
-                      <label htmlFor={item.type}>{item.label}</label>
+                      >
+                        <label htmlFor={item.type}>{item.label}</label>
 
-                      <Field
-                        className={classes.input}
-                        name={item.type}
-                        id={item.type}
-                      />
-                      {errors[item.type] && touched[item.type] ? (
-                        <div className={classes["error-message"]}>
-                          {errors[item.type]}
-                        </div>
-                      ) : null}
-                    </div>
-                  </Fragment>
-                )
-              )}
+                        <Field
+                          className={classes.input}
+                          name={item.type}
+                          id={item.type}
+                        />
+                        {errors[item.type] && touched[item.type] ? (
+                          <div className={classes["error-message"]}>
+                            {errors[item.type]}
+                          </div>
+                        ) : null}
+                      </div>
+                    </Fragment>
+                  )
+                )}
 
-              <div className={classes.btns}>
-                <div className={classes.back} onClick={() => router.back()}>
-                  &lt; Return To Menu
+                <div className={classes.btns}>
+                  <div className={classes.back} onClick={() => router.back()}>
+                    &lt; Return To Menu
+                  </div>
+                  <button type="submit">Edit</button>
                 </div>
-                <button type="submit">Edit</button>
-              </div>
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </div>
     </Container>
   );

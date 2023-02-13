@@ -1,45 +1,69 @@
 import Link from "next/link";
-import {useRouter} from "next/router";
 import classes from "./menus.module.css";
+import Table from "../../UI/Table/Table";
 import axios from "axios";
+import {useMemo} from "react";
+import Container from "@/UI/Container/Container";
 axios.defaults.baseURL = "http://localhost:3000";
 
 const Menus = (props) => {
-  const router = useRouter();
+  const columns = useMemo(
+    () => [
+      {
+        Header: "ID",
+        accessor: "_id",
+      },
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+      {
+        Header: "Category",
+        accessor: "category",
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Price",
+        accessor: "price",
+      },
+      {
+        Header: "Action",
+        accessor: "action",
+        Cell: ({row}) => (
+          <Link
+            className={classes["edit-btn"]}
+            href={`menu/${row.original._id}`}
+          >
+            {row.original.action}
+          </Link>
+        ),
+      },
+    ],
+    []
+  );
+
+  let menusWithAction = [];
+  props.menus.map((menu) => {
+    menusWithAction.push({...menu, action: "Edit"});
+  });
+
+  const data = useMemo(() => menusWithAction, []);
 
   return (
-    <div className={classes.menu}>
-      <div className={classes["menu-addbtn"]}>
-        <button onClick={() => router.push("add-menu")}>Add</button>
-      </div>
-      <div className={classes["menu-header"]}>
-        <div>id</div>
-        <div>Name</div>
-        <div>Category</div>
-        <div>Description</div>
-        <div>Price</div>
-        <div>Actions</div>
-      </div>
-      {props.menus?.map((menu) => (
-        <div key={menu._id} className={classes["menu-row"]}>
-          <div className={classes["menu-item"]}>{menu._id}</div>
-          <Link href={`item/${menu._id}`} className={classes["menu-item"]}>
-            {menu.name}
+    <Container>
+      <div className={classes["table-wrapper"]}>
+        <div className={classes["page-header"]}>
+          <div className={classes["page-title"]}>Menus</div>
+          <Link className={classes["add-btn"]} href="add-menu">
+            Add
           </Link>
-          <div className={classes["menu-item"]}>
-            {menu.description.split(" ").splice(0, 5) + "....."}
-          </div>
-          <div className={classes["menu-item"]}>{menu.category}</div>
-          <div className={classes["menu-item"]}>{menu.price}</div>
-          <div className={classes["menu-item"]}>
-            <button onClick={() => router.push(`menu/${menu._id}`)}>
-              Edit
-            </button>
-            <button>Delete</button>
-          </div>
         </div>
-      ))}
-    </div>
+        <Table columns={columns} data={[...data]} />
+      </div>
+    </Container>
   );
 };
 export default Menus;
