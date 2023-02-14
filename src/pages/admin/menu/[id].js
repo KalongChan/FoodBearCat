@@ -81,8 +81,10 @@ const Menu = ({selectedMenu, categories}) => {
     <Container>
       <div className={classes["form-wrapper"]}>
         <div className={classes["form-header"]}>
-          <h2>Edit Menu</h2>
-          <button onClick={deleteHandler}>Delete</button>
+          <div className={classes["form-title"]}>Edit Menu</div>
+          <button onClick={deleteHandler} className={classes["delete-btn"]}>
+            Delete
+          </button>
         </div>
         <div className={classes.form}>
           <Formik
@@ -146,9 +148,11 @@ const Menu = ({selectedMenu, categories}) => {
 
                 <div className={classes.btns}>
                   <div className={classes.back} onClick={() => router.back()}>
-                    &lt; Return To Menu
+                    &lt; Return To Menus
                   </div>
-                  <button type="submit">Edit</button>
+                  <button type="submit" className={classes["edit-btn"]}>
+                    Edit
+                  </button>
                 </div>
               </Form>
             )}

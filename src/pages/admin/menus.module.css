@@ -1,27 +1,8 @@
-/* .menu-addbtn {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-}
-
-.menu-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
-
 .table-wrapper table {
   width: 100%;
   line-height: 1.5rem;
   border-collapse: collapse;
-  border: 2px solid #000;
+  border: 2px solid #dcdfe6;
 }
 
 .page-header {
@@ -32,29 +13,54 @@
 }
 
 .page-title {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: 700;
 }
 
+.actions {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
 .add-btn,
-.edit-btn {
+.edit-btn,
+.delete-btn,
+.sub-btn {
+  font-size: 12px;
   padding: 0.75rem 1.5rem;
-  border: 2px solid #ab3c2a;
-  background-color: #ab3c2a;
+  border: 2px solid #3b8070;
+  background-color: #3b8070;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
+.edit-btn {
+  margin-right: 5px;
+}
+
+.delete-btn {
+  border: 2px solid #f56c6c;
+  background-color: #f56c6c;
+}
+
+.sub-btn {
+  border: 2px solid #3b8070;
+  background-color: #fff;
+  color: #3b8070;
+}
+
 .table-wrapper th,
 .table-wrapper td {
-  text-align: center;
+  font-size: 16px;
+  text-align: start;
   margin: 0;
   padding: 25px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid #dcdfe6;
 }
 
 .table-wrapper tr:nth-of-type(2n) {
-  background-color: #eee;
+  background-color: #f5f7fa;
 }

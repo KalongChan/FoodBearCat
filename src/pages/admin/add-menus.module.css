@@ -4,9 +4,15 @@
 }
 
 .form-header {
+  padding: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.form-title {
+  font-size: 32px;
+  font-weight: 700;
 }
 
 @media (max-width: 1024px) {
@@ -31,7 +37,7 @@
   width: 100%;
   height: 50px;
   outline: none;
-  border: 2px solid #d9d9d9;
+  border: 2px solid #dcdfe6;
   margin-bottom: 5px;
   border-radius: 5px;
   padding: 0px 10px;
@@ -51,16 +57,22 @@
   top: 10px;
 }
 
-.form-wrapper button,
-.btns button {
+.edit-btn,
+.delete-btn {
+  font-size: 12px;
   min-width: 120px;
   padding: 0.75rem 1.5rem;
-  border: 1px solid #ab3c2a;
-  background-color: #ab3c2a;
+  border: 1px solid #3b8070;
+  background-color: #3b8070;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.delete-btn {
+  border: 2px solid #f56c6c;
+  background-color: #f56c6c;
 }
 
 .btns {

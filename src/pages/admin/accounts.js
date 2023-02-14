@@ -25,12 +25,20 @@ const Account = (props) => {
         Header: "Action",
         accessor: "action",
         Cell: ({row}) => (
-          <Link
-            className={classes["edit-btn"]}
-            href={`account/${row.original._id}`}
-          >
-            {row.original.action}
-          </Link>
+          <div>
+            <Link
+              className={classes["edit-btn"]}
+              href={`account/${row.original._id}`}
+            >
+              {row.original.action[0]}
+            </Link>
+            <Link
+              className={classes["delete-btn"]}
+              href={`account/${row.original._id}`}
+            >
+              {row.original.action[1]}
+            </Link>
+          </div>
         ),
       },
     ],
@@ -39,7 +47,7 @@ const Account = (props) => {
 
   let menusWithAction = [];
   props.accounts.map((account) => {
-    menusWithAction.push({...account, action: "Edit"});
+    menusWithAction.push({...account, action: ["Edit", "Delete"]});
   });
 
   const data = useMemo(() => menusWithAction, []);
