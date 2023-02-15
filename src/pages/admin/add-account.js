@@ -119,7 +119,9 @@ const addMenu = () => {
                   <div className={classes.back} onClick={() => router.back()}>
                     &lt; Return To Menu
                   </div>
-                  <button type="submit">Submit</button>
+                  <button type="submit" className={classes["edit-btn"]}>
+                    Submit
+                  </button>
                 </div>
               </Form>
             )}

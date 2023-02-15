@@ -1,17 +1,50 @@
 import Container from "@/UI/Container/Container";
 import {Formik, Form, Field} from "formik";
-import {useRouter} from "next/router";
-import {Fragment} from "react";
 import * as Yup from "yup";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
+import Modal from "../../../UI/Modal/Modal";
 import {toast} from "react-toastify";
-
+import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
+import {Fragment, useState} from "react";
 
 const Menu = ({selectedMenu, categories}) => {
   const router = useRouter();
   const id = router.query.id;
+  const [showModal, setShowModal] = useState(false);
+  const [currentMenu, setCurrentMenu] = useState(null);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const openModal = (menu) => {
+    setCurrentMenu(menu);
+    toggleModal();
+  };
+
+  const deleteMenu = async () => {
+    try {
+      const response = await axios.delete(`/api/menu/${currentMenu.id}`);
+      toast.success(response.data.message);
+    } catch (e) {
+      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
+      toast.error(errorMessage);
+    }
+    toggleModal();
+    router.push("/admin/menus");
+  };
+
+  const editHandler = async (values) => {
+    try {
+      const response = await axios.put(`/api/menu/${id}`, {...values});
+      toast.success(response.data.message);
+    } catch (e) {
+      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
+      toast.error(errorMessage);
+    }
+  };
 
   if (!selectedMenu) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
@@ -48,41 +81,41 @@ const Menu = ({selectedMenu, categories}) => {
     {type: "image", label: "Image URL (400*400)"},
   ];
 
-  const editHandler = async (values) => {
-    try {
-      const response = await axios.put(`/api/menu/${id}`, {...values});
-      toast.success(response.data.message);
-    } catch (e) {
-      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
-      toast.error(errorMessage);
-    }
-  };
-
-  const deleteHandler = async () => {
-    try {
-      const response = await axios.delete(`/api/menu/${id}`);
-      if (response.status === 200) {
-        router.push("/admin/menus");
-        toast.success(response.data.message);
-      }
-    } catch (e) {
-      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
-      toast.error(errorMessage);
-    }
-
-    // const response = await axios.delete(`/api/menu/${id}`);
-    // if (response.status === 200) {
-    //   alert(response.data.message);
-    //   router.push("/admin/menus");
-    // }
-  };
-
   return (
     <Container>
+      {showModal && (
+        <Modal showModal={showModal} setShowModal={setShowModal}>
+          <h2>
+            Are you sure want to delete <span>{`${currentMenu.name}`}</span> ?
+          </h2>
+          <div>
+            <button
+              className={classes["sub-btn"]}
+              onClick={() => toggleModal()}
+            >
+              Cancel
+            </button>
+            <button
+              className={classes["delete-btn"]}
+              onClick={() => deleteMenu()}
+            >
+              Confirm
+            </button>
+          </div>
+        </Modal>
+      )}
       <div className={classes["form-wrapper"]}>
         <div className={classes["form-header"]}>
           <div className={classes["form-title"]}>Edit Menu</div>
-          <button onClick={deleteHandler} className={classes["delete-btn"]}>
+          <button
+            onClick={() =>
+              openModal({
+                id: selectedMenu._id,
+                name: selectedMenu.name,
+              })
+            }
+            className={classes["delete-btn"]}
+          >
             Delete
           </button>
         </div>

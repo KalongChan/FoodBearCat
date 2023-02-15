@@ -2,9 +2,9 @@ import Link from "next/link";
 import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3000";
 import {useMemo, useState} from "react";
 import Container from "@/UI/Container/Container";
-axios.defaults.baseURL = "http://localhost:3000";
 
 import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
@@ -20,7 +20,6 @@ const Menus = (props) => {
   };
 
   const openModal = (item) => {
-    console.log(item);
     setCurrentItem(item);
     toggleModal();
   };
@@ -103,7 +102,7 @@ const Menus = (props) => {
       {showModal && (
         <Modal showModal={showModal} setShowModal={setShowModal}>
           <h2>
-            Are you sure to delete <span>{`${currentItem.name}`}</span> ?
+            Are you sure want to delete <span>{`${currentItem.name}`}</span> ?
           </h2>
           <div>
             <button

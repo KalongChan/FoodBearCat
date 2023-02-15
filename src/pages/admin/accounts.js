@@ -2,11 +2,39 @@ import Link from "next/link";
 import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
-import {useMemo} from "react";
-import Container from "@/UI/Container/Container";
 axios.defaults.baseURL = "http://localhost:3000";
+import {useMemo, useState} from "react";
+import Container from "@/UI/Container/Container";
+import Modal from "../../UI/Modal/Modal";
+import {toast} from "react-toastify";
+import {useRouter} from "next/router";
 
 const Account = (props) => {
+  const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState(null);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const openModal = (account) => {
+    setCurrentAccount(account);
+    toggleModal();
+  };
+
+  const deleteAccount = async () => {
+    try {
+      const response = await axios.delete(`/api/account/${currentAccount.id}`);
+      toast.success(response.data.message);
+    } catch (e) {
+      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
+      toast.error(errorMessage);
+    }
+    toggleModal();
+    router.push("accounts");
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -26,18 +54,23 @@ const Account = (props) => {
         accessor: "action",
         Cell: ({row}) => (
           <div>
-            <Link
+            <button
               className={classes["edit-btn"]}
-              href={`account/${row.original._id}`}
+              onClick={() => router.push(`account/${row.original._id}`)}
             >
               {row.original.action[0]}
-            </Link>
-            <Link
+            </button>
+            <button
               className={classes["delete-btn"]}
-              href={`account/${row.original._id}`}
+              onClick={() =>
+                openModal({
+                  id: row.original._id,
+                  account: row.original.account,
+                })
+              }
             >
               {row.original.action[1]}
-            </Link>
+            </button>
           </div>
         ),
       },
@@ -50,14 +83,36 @@ const Account = (props) => {
     menusWithAction.push({...account, action: ["Edit", "Delete"]});
   });
 
-  const data = useMemo(() => menusWithAction, []);
+  const data = useMemo(() => menusWithAction, [props.accounts]);
 
   return (
     <Container>
+      {showModal && (
+        <Modal showModal={showModal} setShowModal={setShowModal}>
+          <h2>
+            Are you sure want to delete{" "}
+            <span>{`${currentAccount.account}`}</span> ?
+          </h2>
+          <div>
+            <button
+              className={classes["sub-btn"]}
+              onClick={() => toggleModal()}
+            >
+              Cancel
+            </button>
+            <button
+              className={classes["delete-btn"]}
+              onClick={() => deleteAccount()}
+            >
+              Confirm
+            </button>
+          </div>
+        </Modal>
+      )}
       <div className={classes["table-wrapper"]}>
         <div className={classes["page-header"]}>
           <div className={classes["page-title"]}>Accounts</div>
-          <Link className={classes["add-btn"]} href="add-menu">
+          <Link className={classes["add-btn"]} href="add-account">
             Add
           </Link>
         </div>

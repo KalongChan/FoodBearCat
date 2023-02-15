@@ -1,15 +1,52 @@
 import Container from "@/UI/Container/Container";
 import {Formik, Form, Field} from "formik";
-import {useRouter} from "next/router";
 import * as Yup from "yup";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
+import Modal from "../../../UI/Modal/Modal";
 import {toast} from "react-toastify";
-
+import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
+import {useState} from "react";
 
 const addAccount = ({account}) => {
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState(null);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const openModal = (account) => {
+    setCurrentAccount(account);
+    toggleModal();
+  };
+
+  const deleteAccount = async () => {
+    try {
+      const response = await axios.delete(`/api/account/${currentAccount.id}`);
+      toast.success(response.data.message);
+    } catch (e) {
+      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
+      toast.error(errorMessage);
+    }
+    toggleModal();
+    router.push("/admin/accounts");
+  };
+
+  const submitHandler = async (values) => {
+    try {
+      const response = await axios.put(`/api/account/${account._id}`, {
+        ...values,
+      });
+      router.push("/admin/accounts");
+      toast.success(response.data.message);
+    } catch (e) {
+      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
+      toast.error(errorMessage);
+    }
+  };
 
   if (!account) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
@@ -33,36 +70,39 @@ const addAccount = ({account}) => {
     {type: "type", label: "User Type"},
   ];
 
-  const submitHandler = async (values) => {
-    try {
-      const response = await axios.put(`/api/account/${account._id}`, {
-        ...values,
-      });
-      router.push("/admin/accounts");
-      toast.success(response.data.message);
-    } catch (e) {
-      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
-      toast.error(errorMessage);
-    }
-  };
-
-  const deleteHandler = async () => {
-    try {
-      const response = await axios.delete(`/api/account/${account._id}`);
-      router.push("/admin/accounts");
-      toast.success(response.data.message);
-    } catch (e) {
-      const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
-      toast.error(errorMessage);
-    }
-  };
-
   return (
     <Container>
+      {showModal && (
+        <Modal showModal={showModal} setShowModal={setShowModal}>
+          <h2>
+            Are you sure want to delete{" "}
+            <span>{`${currentAccount.account}`}</span> ?
+          </h2>
+          <div>
+            <button
+              className={classes["sub-btn"]}
+              onClick={() => toggleModal()}
+            >
+              Cancel
+            </button>
+            <button
+              className={classes["delete-btn"]}
+              onClick={() => deleteAccount()}
+            >
+              Confirm
+            </button>
+          </div>
+        </Modal>
+      )}
       <div className={classes["form-wrapper"]}>
         <div className={classes["form-header"]}>
           <div className={classes["form-title"]}>Edit Menu</div>
-          <button onClick={deleteHandler} className={classes["delete-btn"]}>
+          <button
+            onClick={() =>
+              openModal({id: account._id, account: account.account})
+            }
+            className={classes["delete-btn"]}
+          >
             Delete
           </button>
         </div>

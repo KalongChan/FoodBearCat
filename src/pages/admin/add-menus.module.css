@@ -58,7 +58,8 @@
 }
 
 .edit-btn,
-.delete-btn {
+.delete-btn,
+.sub-btn {
   font-size: 12px;
   min-width: 120px;
   padding: 0.75rem 1.5rem;
@@ -73,6 +74,12 @@
 .delete-btn {
   border: 2px solid #f56c6c;
   background-color: #f56c6c;
+}
+
+.sub-btn {
+  border: 2px solid #3b8070;
+  background-color: #fff;
+  color: #3b8070;
 }
 
 .btns {
