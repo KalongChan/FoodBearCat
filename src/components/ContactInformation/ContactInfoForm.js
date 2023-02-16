@@ -44,7 +44,7 @@ const ContactInformForm = (props) => {
         {({errors, touched}) => (
           <Form>
             {contactForm.map((item) => (
-              <Fragment>
+              <Fragment key={item.type}>
                 <div
                   className={`${classes["form-item"]}
              ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
@@ -69,7 +69,7 @@ const ContactInformForm = (props) => {
               <Link className={classes.back} href="/cart">
                 &lt; Return To Cart
               </Link>
-              <button type="submit">Submit</button>
+              <button type="submit">Next Step</button>
             </div>
           </Form>
         )}

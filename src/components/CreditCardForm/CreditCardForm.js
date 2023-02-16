@@ -68,7 +68,7 @@ const CreditCardForm = (props) => {
         {({errors, touched}) => (
           <Form>
             {creditCardForm.map((item) => (
-              <Fragment>
+              <Fragment key={item.type}>
                 <div
                   className={`${classes["form-item"]}
              ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
@@ -93,7 +93,7 @@ const CreditCardForm = (props) => {
               <div className={classes.back} onClick={backHandler}>
                 &lt; Back To Last Step
               </div>
-              <button type="submit">Submit</button>
+              <button type="submit">Next Step</button>
             </div>
           </Form>
         )}
