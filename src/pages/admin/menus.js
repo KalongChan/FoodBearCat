@@ -3,14 +3,16 @@ import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
-import {useMemo, useState} from "react";
+import {Fragment, useEffect, useMemo, useState} from "react";
 import Container from "@/UI/Container/Container";
 
 import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
-
+import {useSession} from "next-auth/react";
 const Menus = (props) => {
+  const {data: session, status} = useSession();
+
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
@@ -66,6 +68,7 @@ const Menus = (props) => {
             <button
               className={classes["edit-btn"]}
               onClick={() => router.push(`menu/${row.original._id}`)}
+              // onClick={() => console.log(row.original._id)}
             >
               {row.original.action[0]}
             </button>
@@ -97,45 +100,73 @@ const Menus = (props) => {
     pageIndex: 0,
   };
 
-  return (
-    <Container>
-      {showModal && (
-        <Modal showModal={showModal} setShowModal={setShowModal}>
-          <h2>
-            Are you sure want to delete <span>{`${currentItem.name}`}</span> ?
-          </h2>
-          <div>
-            <button
-              className={classes["sub-btn"]}
-              onClick={() => toggleModal()}
-            >
-              Cancel
-            </button>
-            <button
-              className={classes["delete-btn"]}
-              onClick={() => deleteItem()}
-            >
-              Confirm
-            </button>
+  useEffect(() => {
+    if (status === "loading") {
+      return;
+    }
+    if (status === "unauthenticated") {
+      router.push("/signin");
+      return;
+    }
+
+    if (!session.admin) {
+      router.push("/");
+      return;
+    }
+  }, [session]);
+
+  if (session && session.admin) {
+    return (
+      <Fragment>
+        Signed in as {session?.user.email} <br />
+        Signed in as {session?.id} <br />
+        <Container>
+          {showModal && (
+            <Modal showModal={showModal} setShowModal={setShowModal}>
+              <h2>
+                Are you sure want to delete <span>{`${currentItem.name}`}</span>{" "}
+                ?
+              </h2>
+              <div>
+                <button
+                  className={classes["sub-btn"]}
+                  onClick={() => toggleModal()}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={classes["delete-btn"]}
+                  onClick={() => deleteItem()}
+                >
+                  Confirm
+                </button>
+              </div>
+            </Modal>
+          )}
+          <div className={classes["table-wrapper"]}>
+            <div className={classes["page-header"]}>
+              <div className={classes["page-title"]}>Menus</div>
+              <Link className={classes["add-btn"]} href="add-menu">
+                Add
+              </Link>
+            </div>
+            {props.menus ? (
+              <Table columns={columns} data={[...data]} />
+            ) : (
+              <h1>Loading</h1>
+            )}
           </div>
-        </Modal>
-      )}
-      <div className={classes["table-wrapper"]}>
-        <div className={classes["page-header"]}>
-          <div className={classes["page-title"]}>Menus</div>
-          <Link className={classes["add-btn"]} href="add-menu">
-            Add
-          </Link>
-        </div>
-        {props.menus ? (
-          <Table columns={columns} data={[...data]} />
-        ) : (
-          <h1>Loading</h1>
-        )}
-      </div>
-    </Container>
-  );
+        </Container>
+      </Fragment>
+    );
+  } else {
+  }
+  // }
+  // catch (e) {
+  //   console.log(e);
+  // }
 };
+
 export default Menus;
 
 export const getStaticProps = async () => {

@@ -1,5 +1,5 @@
 const dashboard = () => {
-  return <div>123</div>;
+  return <div></div>;
 };
 export default dashboard;
 
@@ -7,7 +7,7 @@ export const getStaticProps = () => {
   return {
     redirect: {
       destination: "/admin/menus",
-      permanent: false,
+      permanent: true,
     },
   };
 };

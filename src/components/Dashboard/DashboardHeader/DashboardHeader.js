@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {signOut} from "next-auth/react";
 
 import classes from "./DashboardHeader.module.css";
 
@@ -12,7 +13,7 @@ const DashboardHeader = () => {
         <div className={classes.headerLinks}>
           <Link href="/admin/menus">Menus</Link>
           <Link href="/admin/accounts">Account</Link>
-          <Link href="/">Logout</Link>
+          <div onClick={signOut}>Logout</div>
         </div>
       </div>
     </header>
