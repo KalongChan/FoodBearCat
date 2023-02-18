@@ -63,17 +63,17 @@ const Menu = ({selectedMenu, categories}) => {
     }
   }, [session]);
 
+  let initialValues = {
+    name: selectedMenu?.name,
+    category: selectedMenu?.category,
+    description: selectedMenu?.description,
+    price: selectedMenu?.price,
+    image: selectedMenu?.image,
+  };
+
   if (!selectedMenu) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
   }
-
-  let initialValues = {
-    name: selectedMenu.name,
-    category: selectedMenu.category,
-    description: selectedMenu.description,
-    price: selectedMenu.price,
-    image: selectedMenu.image,
-  };
 
   const menuSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
