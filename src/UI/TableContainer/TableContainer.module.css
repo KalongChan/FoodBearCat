@@ -1,0 +1,13 @@
+.container {
+  padding: 20px 24px;
+  margin: 0 auto;
+  height: 100%;
+  width: 1170px;
+  background-color: #fff;
+}
+
+@media (min-width: 1536px) {
+  .container {
+    width: 1480px;
+  }
+}
