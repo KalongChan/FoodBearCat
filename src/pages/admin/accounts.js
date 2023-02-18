@@ -4,7 +4,7 @@ import Table from "../../UI/Table/Table";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
 import {useEffect, useMemo, useState} from "react";
-import Container from "@/UI/Container/Container";
+import TableContainer from "@/UI/TableContainer/TableContainer";
 import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
@@ -104,7 +104,7 @@ const Accounts = (props) => {
 
   if (session && session.admin) {
     return (
-      <Container>
+      <TableContainer>
         {showModal && (
           <Modal showModal={showModal} setShowModal={setShowModal}>
             <h2>
@@ -136,7 +136,7 @@ const Accounts = (props) => {
           </div>
           <Table columns={columns} data={[...data]} />
         </div>
-      </Container>
+      </TableContainer>
     );
   }
 };

@@ -4,7 +4,7 @@ import Table from "../../UI/Table/Table";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
 import {Fragment, useEffect, useMemo, useState} from "react";
-import Container from "@/UI/Container/Container";
+import TableContainer from "@/UI/TableContainer/TableContainer";
 
 import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
@@ -113,17 +113,19 @@ const Menus = (props) => {
       router.push("/");
       return;
     }
+    console.log(session);
   }, [session]);
 
   if (session && session.admin) {
     return (
       <Fragment>
-        Signed in as {session?.user.email} <br />
+        Signed in as {session?.user.name} <br />
         Signed in as {session?.id} <br />
-        <Container>
+        Signed in as {session?.admin} <br />
+        <TableContainer>
           {showModal && (
             <Modal showModal={showModal} setShowModal={setShowModal}>
-              <h2>
+              <h2 className={classes.test}>
                 Are you sure want to delete <span>{`${currentItem.name}`}</span>{" "}
                 ?
               </h2>
@@ -156,7 +158,7 @@ const Menus = (props) => {
               <h1>Loading</h1>
             )}
           </div>
-        </Container>
+        </TableContainer>
       </Fragment>
     );
   }
