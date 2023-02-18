@@ -7,9 +7,11 @@ import Modal from "../../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useSession} from "next-auth/react";
 
 const addAccount = ({account}) => {
+  const {data: session, status} = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -48,15 +50,31 @@ const addAccount = ({account}) => {
     }
   };
 
+  useEffect(() => {
+    if (status === "loading") {
+      return;
+    }
+
+    if (status === "unauthenticated") {
+      router.push("/signin");
+      return;
+    }
+
+    if (!session.admin) {
+      router.push("/");
+      return;
+    }
+  }, [session]);
+
+  let initialValues = {
+    account: account?.account,
+    // password: "",
+    type: account?.type,
+  };
+
   if (!account) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
   }
-
-  let initialValues = {
-    account: account.account,
-    // password: "",
-    type: account.type,
-  };
 
   const menuSchema = Yup.object().shape({
     account: Yup.string().required("Required"),
@@ -70,138 +88,127 @@ const addAccount = ({account}) => {
     {type: "type", label: "User Type"},
   ];
 
-  return (
-    <Container>
-      {showModal && (
-        <Modal showModal={showModal} setShowModal={setShowModal}>
-          <h2>
-            Are you sure want to delete{" "}
-            <span>{`${currentAccount.account}`}</span> ?
-          </h2>
-          <div>
+  if (session && session.admin) {
+    return (
+      <Container>
+        {showModal && (
+          <Modal showModal={showModal} setShowModal={setShowModal}>
+            <h2>
+              Are you sure want to delete{" "}
+              <span>{`${currentAccount.account}`}</span> ?
+            </h2>
+            <div>
+              <button
+                className={classes["sub-btn"]}
+                onClick={() => toggleModal()}
+              >
+                Cancel
+              </button>
+              <button
+                className={classes["delete-btn"]}
+                onClick={() => deleteAccount()}
+              >
+                Confirm
+              </button>
+            </div>
+          </Modal>
+        )}
+        <div className={classes["form-wrapper"]}>
+          <div className={classes["form-header"]}>
+            <div className={classes["form-title"]}>Edit Menu</div>
             <button
-              className={classes["sub-btn"]}
-              onClick={() => toggleModal()}
-            >
-              Cancel
-            </button>
-            <button
+              onClick={() =>
+                openModal({id: account._id, account: account.account})
+              }
               className={classes["delete-btn"]}
-              onClick={() => deleteAccount()}
             >
-              Confirm
+              Delete
             </button>
           </div>
-        </Modal>
-      )}
-      <div className={classes["form-wrapper"]}>
-        <div className={classes["form-header"]}>
-          <div className={classes["form-title"]}>Edit Menu</div>
-          <button
-            onClick={() =>
-              openModal({id: account._id, account: account.account})
-            }
-            className={classes["delete-btn"]}
-          >
-            Delete
-          </button>
-        </div>
-        <div className={classes.form}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={menuSchema}
-            onSubmit={submitHandler}
-          >
-            {({errors, touched}) => (
-              <Form>
-                <div
-                  className={`${classes["form-item"]}
+          <div className={classes.form}>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={menuSchema}
+              onSubmit={submitHandler}
+            >
+              {({errors, touched}) => (
+                <Form>
+                  <div
+                    className={`${classes["form-item"]}
                ${errors.account && touched.account ? classes.error : ""}`}
-                >
-                  <label htmlFor="account">User Name</label>
-
-                  <Field
-                    className={classes.input}
-                    name="account"
-                    id="account"
-                  />
-                  {errors.account && touched.account ? (
-                    <div className={classes["error-message"]}>
-                      {errors.account}
-                    </div>
-                  ) : null}
-                </div>
-
-                {/* <div
-                className={`${classes["form-item"]}
-               ${errors.password && touched.password ? classes.error : ""}`}
-              >
-                <label htmlFor="password">Password</label>
-
-                <Field
-                  type="password"
-                  className={classes.input}
-                  name="password"
-                  id="password"
-                />
-                {errors.password && touched.password ? (
-                  <div className={classes["error-message"]}>
-                    {errors.password}
-                  </div>
-                ) : null}
-              </div> */}
-
-                <div
-                  className={`${classes["form-item"]}
-               ${errors.type && touched.type ? classes.error : ""}`}
-                >
-                  <label htmlFor="type">User Type</label>
-
-                  <Field
-                    as="select"
-                    className={classes.input}
-                    name="type"
-                    id="type"
                   >
-                    <option value="">Select a Type</option>
-                    <option value="Admin" key="Admin">
-                      Admin
-                    </option>
-                    <option value="User" key="User">
-                      User
-                    </option>
-                  </Field>
-                  {errors.type && touched.type ? (
-                    <div className={classes["error-message"]} id="type">
-                      {errors.type}
-                    </div>
-                  ) : null}
-                </div>
+                    <label htmlFor="account">User Name</label>
 
-                <div className={classes.btns}>
-                  <div className={classes.back} onClick={() => router.back()}>
-                    &lt; Return To Accounts
+                    <Field
+                      className={classes.input}
+                      name="account"
+                      id="account"
+                    />
+                    {errors.account && touched.account ? (
+                      <div className={classes["error-message"]}>
+                        {errors.account}
+                      </div>
+                    ) : null}
                   </div>
-                  <button type="submit" className={classes["edit-btn"]}>
-                    Edit
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+
+                  <div
+                    className={`${classes["form-item"]}
+               ${errors.type && touched.type ? classes.error : ""}`}
+                  >
+                    <label htmlFor="type">User Type</label>
+
+                    <Field
+                      as="select"
+                      className={classes.input}
+                      name="type"
+                      id="type"
+                    >
+                      <option value="">Select a Type</option>
+                      <option value="Admin" key="Admin">
+                        Admin
+                      </option>
+                      <option value="User" key="User">
+                        User
+                      </option>
+                    </Field>
+                    {errors.type && touched.type ? (
+                      <div className={classes["error-message"]} id="type">
+                        {errors.type}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className={classes.btns}>
+                    <div className={classes.back} onClick={() => router.back()}>
+                      &lt; Return To Accounts
+                    </div>
+                    <button type="submit" className={classes["edit-btn"]}>
+                      Edit
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
-    </Container>
-  );
+      </Container>
+    );
+  }
 };
 export default addAccount;
 
-export const getStaticPaths = async () => {
-  let accounts = null;
+export const getServerSideProps = async ({req, params}) => {
+  const id = params.id;
+  let account = null;
 
   try {
-    accounts = await axios.get("/api/accounts");
-    accounts = accounts.data;
+    account = await axios.get(`/api/account/${id}`, {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    });
+    account = account.data;
   } catch (e) {
     if (e.response) {
       console.log(e.response.status);
@@ -212,25 +219,8 @@ export const getStaticPaths = async () => {
   }
 
   return {
-    fallback: "blocking",
-    paths: accounts.map((menu) => ({params: {id: menu._id.toString()}})),
-  };
-};
-
-export async function getStaticProps(context) {
-  const id = context.params.id;
-  let account = null;
-
-  try {
-    account = await axios.get(`/api/account/${id}`);
-    account = account.data;
-  } catch (e) {
-    console.log(e);
-  }
-
-  return {
     props: {
       account: account,
     },
   };
-}
+};

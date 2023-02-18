@@ -7,9 +7,11 @@ import Modal from "../../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
+import {useSession} from "next-auth/react";
 
 const Menu = ({selectedMenu, categories}) => {
+  const {data: session, status} = useSession();
   const router = useRouter();
   const id = router.query.id;
   const [showModal, setShowModal] = useState(false);
@@ -46,6 +48,21 @@ const Menu = ({selectedMenu, categories}) => {
     }
   };
 
+  useEffect(() => {
+    if (status === "loading") {
+      return;
+    }
+    if (status === "unauthenticated") {
+      router.push("/signin");
+      return;
+    }
+
+    if (!session.admin) {
+      router.push("/");
+      return;
+    }
+  }, [session]);
+
   if (!selectedMenu) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
   }
@@ -81,138 +98,135 @@ const Menu = ({selectedMenu, categories}) => {
     {type: "image", label: "Image URL (400*400)"},
   ];
 
-  return (
-    <Container>
-      {showModal && (
-        <Modal showModal={showModal} setShowModal={setShowModal}>
-          <h2>
-            Are you sure want to delete <span>{`${currentMenu.name}`}</span> ?
-          </h2>
-          <div>
+  if (session && session.admin) {
+    return (
+      <Container>
+        {showModal && (
+          <Modal showModal={showModal} setShowModal={setShowModal}>
+            <h2>
+              Are you sure want to delete <span>{`${currentMenu.name}`}</span> ?
+            </h2>
+            <div>
+              <button
+                className={classes["sub-btn"]}
+                onClick={() => toggleModal()}
+              >
+                Cancel
+              </button>
+              <button
+                className={classes["delete-btn"]}
+                onClick={() => deleteMenu()}
+              >
+                Confirm
+              </button>
+            </div>
+          </Modal>
+        )}
+        <div className={classes["form-wrapper"]}>
+          <div className={classes["form-header"]}>
+            <div className={classes["form-title"]}>Edit Menu</div>
             <button
-              className={classes["sub-btn"]}
-              onClick={() => toggleModal()}
-            >
-              Cancel
-            </button>
-            <button
+              onClick={() =>
+                openModal({
+                  id: selectedMenu._id,
+                  name: selectedMenu.name,
+                })
+              }
               className={classes["delete-btn"]}
-              onClick={() => deleteMenu()}
             >
-              Confirm
+              Delete
             </button>
           </div>
-        </Modal>
-      )}
-      <div className={classes["form-wrapper"]}>
-        <div className={classes["form-header"]}>
-          <div className={classes["form-title"]}>Edit Menu</div>
-          <button
-            onClick={() =>
-              openModal({
-                id: selectedMenu._id,
-                name: selectedMenu.name,
-              })
-            }
-            className={classes["delete-btn"]}
-          >
-            Delete
-          </button>
-        </div>
-        <div className={classes.form}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={menuSchema}
-            onSubmit={editHandler}
-          >
-            {({errors, touched}) => (
-              <Form>
-                {menuForm.map((item, index) =>
-                  item.type === "category" ? (
-                    <Fragment key={index + "_category"}>
-                      <div
-                        className={`${classes["form-item"]} 
+          <div className={classes.form}>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={menuSchema}
+              onSubmit={editHandler}
+            >
+              {({errors, touched}) => (
+                <Form>
+                  {menuForm.map((item, index) =>
+                    item.type === "category" ? (
+                      <Fragment key={index + "_category"}>
+                        <div
+                          className={`${classes["form-item"]} 
                ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                      >
-                        <label htmlFor={item.type}>{item.label}</label>
-
-                        <Field
-                          as="select"
-                          className={classes.input}
-                          name={item.type}
-                          id={item.type}
                         >
-                          <option value="">Select a Category</option>
-                          {categories.map((category) => (
-                            <option value={category.name} key={category.name}>
-                              {category.name}
-                            </option>
-                          ))}
-                        </Field>
-                        {errors[item.type] && touched[item.type] ? (
-                          <div className={classes["error-message"]}>
-                            {errors[item.type]}
-                          </div>
-                        ) : null}
-                      </div>
-                    </Fragment>
-                  ) : (
-                    <Fragment key={index + "_others"}>
-                      <div
-                        className={`${classes["form-item"]}
+                          <label htmlFor={item.type}>{item.label}</label>
+
+                          <Field
+                            as="select"
+                            className={classes.input}
+                            name={item.type}
+                            id={item.type}
+                          >
+                            <option value="">Select a Category</option>
+                            {categories.map((category) => (
+                              <option value={category.name} key={category.name}>
+                                {category.name}
+                              </option>
+                            ))}
+                          </Field>
+                          {errors[item.type] && touched[item.type] ? (
+                            <div className={classes["error-message"]}>
+                              {errors[item.type]}
+                            </div>
+                          ) : null}
+                        </div>
+                      </Fragment>
+                    ) : (
+                      <Fragment key={index + "_others"}>
+                        <div
+                          className={`${classes["form-item"]}
                ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                      >
-                        <label htmlFor={item.type}>{item.label}</label>
+                        >
+                          <label htmlFor={item.type}>{item.label}</label>
 
-                        <Field
-                          className={classes.input}
-                          name={item.type}
-                          id={item.type}
-                        />
-                        {errors[item.type] && touched[item.type] ? (
-                          <div className={classes["error-message"]}>
-                            {errors[item.type]}
-                          </div>
-                        ) : null}
-                      </div>
-                    </Fragment>
-                  )
-                )}
+                          <Field
+                            className={classes.input}
+                            name={item.type}
+                            id={item.type}
+                          />
+                          {errors[item.type] && touched[item.type] ? (
+                            <div className={classes["error-message"]}>
+                              {errors[item.type]}
+                            </div>
+                          ) : null}
+                        </div>
+                      </Fragment>
+                    )
+                  )}
 
-                <div className={classes.btns}>
-                  <div className={classes.back} onClick={() => router.back()}>
-                    &lt; Return To Menus
+                  <div className={classes.btns}>
+                    <div className={classes.back} onClick={() => router.back()}>
+                      &lt; Return To Menus
+                    </div>
+                    <button type="submit" className={classes["edit-btn"]}>
+                      Edit
+                    </button>
                   </div>
-                  <button type="submit" className={classes["edit-btn"]}>
-                    Edit
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
-    </Container>
-  );
+      </Container>
+    );
+  }
 };
 
-export const getStaticPaths = async () => {
-  let menus = await axios.get("/api/menus");
-  menus = menus.data;
-
-  return {
-    fallback: "blocking",
-    paths: menus.map((menu) => ({params: {id: menu._id.toString()}})),
-  };
-};
-
-export async function getStaticProps(context) {
-  const id = context.params.id;
+export const getServerSideProps = async ({req, params}) => {
+  const id = params.id;
   let menuRes = null;
   let categoriesRes = null;
 
   try {
-    menuRes = await axios.get(`/api/menu/${id}`);
+    menuRes = await axios.get(`/api/menu/${id}`, {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    });
     menuRes = menuRes.data;
   } catch (e) {
     console.log(e);
@@ -236,6 +250,6 @@ export async function getStaticProps(context) {
       categories: categoriesRes,
     },
   };
-}
+};
 
 export default Menu;

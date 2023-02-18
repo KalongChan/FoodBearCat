@@ -3,13 +3,15 @@ import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Container from "@/UI/Container/Container";
 import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
+import {useSession} from "next-auth/react";
 
-const Account = (props) => {
+const Accounts = (props) => {
+  const {data: session, status} = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -79,54 +81,78 @@ const Account = (props) => {
   );
 
   let menusWithAction = [];
-  props.accounts.map((account) => {
+  props.accounts?.map((account) => {
     menusWithAction.push({...account, action: ["Edit", "Delete"]});
   });
 
   const data = useMemo(() => menusWithAction, [props.accounts]);
 
-  return (
-    <Container>
-      {showModal && (
-        <Modal showModal={showModal} setShowModal={setShowModal}>
-          <h2>
-            Are you sure want to delete{" "}
-            <span>{`${currentAccount.account}`}</span> ?
-          </h2>
-          <div>
-            <button
-              className={classes["sub-btn"]}
-              onClick={() => toggleModal()}
-            >
-              Cancel
-            </button>
-            <button
-              className={classes["delete-btn"]}
-              onClick={() => deleteAccount()}
-            >
-              Confirm
-            </button>
-          </div>
-        </Modal>
-      )}
-      <div className={classes["table-wrapper"]}>
-        <div className={classes["page-header"]}>
-          <div className={classes["page-title"]}>Accounts</div>
-          <Link className={classes["add-btn"]} href="add-account">
-            Add
-          </Link>
-        </div>
-        <Table columns={columns} data={[...data]} />
-      </div>
-    </Container>
-  );
-};
-export default Account;
+  useEffect(() => {
+    if (status === "loading") {
+      return;
+    }
+    if (status === "unauthenticated") {
+      router.push("/signin");
+      return;
+    }
 
-export const getStaticProps = async () => {
+    if (!session.admin) {
+      router.push("/");
+      return;
+    }
+  }, [session]);
+
+  if (session && session.admin) {
+    return (
+      <Container>
+        {showModal && (
+          <Modal showModal={showModal} setShowModal={setShowModal}>
+            <h2>
+              Are you sure want to delete{" "}
+              <span>{`${currentAccount.account}`}</span> ?
+            </h2>
+            <div>
+              <button
+                className={classes["sub-btn"]}
+                onClick={() => toggleModal()}
+              >
+                Cancel
+              </button>
+              <button
+                className={classes["delete-btn"]}
+                onClick={() => deleteAccount()}
+              >
+                Confirm
+              </button>
+            </div>
+          </Modal>
+        )}
+        <div className={classes["table-wrapper"]}>
+          <div className={classes["page-header"]}>
+            <div className={classes["page-title"]}>Accounts</div>
+            <Link className={classes["add-btn"]} href="add-account">
+              Add
+            </Link>
+          </div>
+          <Table columns={columns} data={[...data]} />
+        </div>
+      </Container>
+    );
+  }
+};
+
+export default Accounts;
+
+export const getServerSideProps = async ({req}) => {
   let accounts = null;
+
   try {
-    accounts = await axios.get("/api/accounts");
+    accounts = await axios.get("/api/accounts", {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    });
     accounts = accounts.data;
   } catch (e) {
     if (e.response) {
@@ -136,11 +162,9 @@ export const getStaticProps = async () => {
       console.log(e);
     }
   }
-
   return {
     props: {
       accounts: accounts,
     },
-    revalidate: 10000,
   };
 };

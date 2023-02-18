@@ -159,12 +159,7 @@ const Menus = (props) => {
         </Container>
       </Fragment>
     );
-  } else {
   }
-  // }
-  // catch (e) {
-  //   console.log(e);
-  // }
 };
 
 export default Menus;
