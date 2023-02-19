@@ -4,6 +4,7 @@ import {updateQuantity, removeItem} from "../../store/cartSlice";
 import classes from "./CartItems.module.css";
 
 const CartItems = ({
+  index,
   _id,
   name,
   category,
@@ -43,7 +44,7 @@ const CartItems = ({
   const removeItemHandler = () => dispatch(removeItem({_id}));
 
   return (
-    <div className={classes.items}>
+    <div className={`${classes.items} ${index % 2 === 0 ? classes.even : ""}`}>
       <div className={classes.left}>
         <div>
           <Image
@@ -56,11 +57,10 @@ const CartItems = ({
         </div>
         <div className={classes.info}>
           <h3 className={classes.name}>{name}</h3>
-          <div className={classes.description}>{description}</div>
-          <div className={classes.subtotal}>{`$${price} x ${quantity} = $${
-            parseInt(price) * parseInt(quantity)
-          }
-        `}</div>
+          <div className={classes.subtotal}>
+            <span className={classes.quantity}>{quantity}</span>
+            {` x $${price}`}
+          </div>
         </div>
       </div>
       <div className={classes["btn-group"]}>

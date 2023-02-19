@@ -1,30 +1,22 @@
 import {useDispatch, useSelector} from "react-redux";
-import {removeAllItems} from "../store/cartSlice";
 
-import CartItems from "../components/CartItems/CartItems";
+import OrdersItems from "../components/OrdersItems/OrdersItems";
 import classes from "../styles/pagesStyles/cart.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
 import Link from "next/link";
 import {Fade} from "react-awesome-reveal";
-import {Fragment} from "react";
 import Image from "next/image";
+import {connectToDatabase} from "../util/mongodb";
+import {getSession} from "next-auth/react";
 
-function cart() {
+const orders = ({orders}) => {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.cart.items);
-  const removeAllHandler = () => {
-    dispatch(removeAllItems());
-  };
 
-  const cartHasItem = items.length !== 0;
-  const totalAmount = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const hasOrders = orders.length !== 0;
 
   return (
     <Fade>
-      {!cartHasItem && (
+      {!hasOrders && (
         <div className={classes.empty}>
           <Image
             src="/img/shopping_cart_woman.png"
@@ -35,29 +27,25 @@ function cart() {
           <h2>Your Cart is Empty</h2>
         </div>
       )}
-      {cartHasItem && (
+      {hasOrders && (
         <div className={classes.cart}>
           <CartContainer>
             <div className={classes["cart-title"]}>
-              <h2>Shopping Cart</h2>
-              <button className={classes.button} onClick={removeAllHandler}>
-                Remove All
-              </button>
+              <h2>My orders</h2>
             </div>
 
-            {items.map((item, index) => (
-              <CartItems
+            {orders.map((item, index) => (
+              <OrdersItems
                 index={index + 1}
                 key={item._id}
-                _id={item._id}
-                name={item.name}
-                description={item.description}
-                price={item.price}
-                image={item.image}
-                quantity={item.quantity}
+                id={item._id}
+                orderTime={item.orderTime}
+                items={item.items}
+                totalAmount={item.totalAmount}
+                status={item.status}
               />
             ))}
-            <h2 className={classes["total-amount"]}>Total: ${totalAmount}</h2>
+
             <div className={classes["check-out-group"]}>
               <Link
                 href="/"
@@ -77,6 +65,29 @@ function cart() {
       )}
     </Fade>
   );
-}
+};
 
-export default cart;
+export default orders;
+
+export const getServerSideProps = async ({req, res}) => {
+  const session = await getSession({req});
+
+  const {db} = await connectToDatabase();
+  let menus = await db.collection("menus").find().toArray();
+  menus = JSON.parse(JSON.stringify(menus));
+  let categories = await db.collection("categories").find().toArray();
+  categories = JSON.parse(JSON.stringify(categories));
+
+  const response = await db
+    .collection("orders")
+    .find({orderedBy: session.id})
+    .toArray();
+
+  const orders = await JSON.parse(JSON.stringify(response));
+
+  return {
+    props: {
+      orders,
+    },
+  };
+};

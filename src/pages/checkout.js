@@ -42,11 +42,13 @@ function checkout() {
             nextStep={nextStep}
             currentStep={currentStep}
           />
-          <CheckoutCart
-            prevStep={prevStep}
-            nextStep={nextStep}
-            currentStep={currentStep}
-          />
+          {currentStep < 3 && (
+            <CheckoutCart
+              prevStep={prevStep}
+              nextStep={nextStep}
+              currentStep={currentStep}
+            />
+          )}
         </div>
       </CartContainer>
     </Fade>

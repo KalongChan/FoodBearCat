@@ -10,39 +10,39 @@ import classes from "../add-menus.module.css";
 import {useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 
-const addAccount = ({account}) => {
+const addAccount = ({order}) => {
   const {data: session, status} = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const [currentOrder, setCurrentOrder] = useState(null);
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const openModal = (account) => {
-    setCurrentAccount(account);
+  const openModal = (order) => {
+    setCurrentOrder(order);
     toggleModal();
   };
 
-  const deleteAccount = async () => {
+  const deleteOrder = async () => {
     try {
-      const response = await axios.delete(`/api/account/${currentAccount.id}`);
+      const response = await axios.delete(`/api/order/${currentOrder.id}`);
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
       toast.error(errorMessage);
     }
     toggleModal();
-    router.push("/admin/accounts");
+    router.push("/admin/orders");
   };
 
   const submitHandler = async (values) => {
     try {
-      const response = await axios.put(`/api/account/${account._id}`, {
+      const response = await axios.put(`/api/order/${order._id}`, {
         ...values,
       });
-      router.push("/admin/accounts");
+      router.push("/admin/orders");
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
@@ -67,26 +67,18 @@ const addAccount = ({account}) => {
   }, [session]);
 
   let initialValues = {
-    account: account?.username,
-    // password: "",
-    type: account?.type,
+    status: order.status,
   };
 
-  if (!account) {
+  if (!order) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
   }
 
-  const menuSchema = Yup.object().shape({
-    account: Yup.string().required("Required"),
-    // password: Yup.string().required("Required"),
-    type: Yup.string().required("Required"),
+  const orderSchema = Yup.object().shape({
+    status: Yup.string().required("Required"),
   });
 
-  const menuForm = [
-    {type: "name", label: "Name"},
-    // {type: "password", label: "Password"},
-    {type: "type", label: "User Type"},
-  ];
+  const menuForm = [{status: "status", label: "Order Status"}];
 
   if (session && session.admin) {
     return (
@@ -94,8 +86,8 @@ const addAccount = ({account}) => {
         {showModal && (
           <Modal showModal={showModal} setShowModal={setShowModal}>
             <h2>
-              Are you sure want to delete{" "}
-              <span>{`${currentAccount.account}`}</span> ?
+              Are you sure want to delete order{" "}
+              <span>{`${currentOrder.id}`}</span> ?
             </h2>
             <div>
               <button
@@ -106,7 +98,7 @@ const addAccount = ({account}) => {
               </button>
               <button
                 className={classes["delete-btn"]}
-                onClick={() => deleteAccount()}
+                onClick={() => deleteOrder()}
               >
                 Confirm
               </button>
@@ -115,11 +107,9 @@ const addAccount = ({account}) => {
         )}
         <div className={classes["form-wrapper"]}>
           <div className={classes["form-header"]}>
-            <div className={classes["form-title"]}>Edit Menu</div>
+            <div className={classes["form-title"]}>Edit Order</div>
             <button
-              onClick={() =>
-                openModal({id: account._id, account: account.username})
-              }
+              onClick={() => openModal({id: order._id})}
               className={classes["delete-btn"]}
             >
               Delete
@@ -128,52 +118,37 @@ const addAccount = ({account}) => {
           <div className={classes.form}>
             <Formik
               initialValues={initialValues}
-              validationSchema={menuSchema}
+              validationSchema={orderSchema}
               onSubmit={submitHandler}
             >
               {({errors, touched}) => (
                 <Form>
                   <div
                     className={`${classes["form-item"]}
-               ${errors.account && touched.account ? classes.error : ""}`}
+               ${errors.status && touched.status ? classes.error : ""}`}
                   >
-                    <label htmlFor="account">User Name</label>
-
-                    <Field
-                      className={classes.input}
-                      name="account"
-                      id="account"
-                    />
-                    {errors.account && touched.account ? (
-                      <div className={classes["error-message"]}>
-                        {errors.account}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div
-                    className={`${classes["form-item"]}
-               ${errors.type && touched.type ? classes.error : ""}`}
-                  >
-                    <label htmlFor="type">User Type</label>
+                    <label htmlFor="status">Order Status</label>
 
                     <Field
                       as="select"
                       className={classes.input}
-                      name="type"
-                      id="type"
+                      name="status"
+                      id="status"
                     >
-                      <option value="">Select a Type</option>
-                      <option value="Admin" key="Admin">
-                        Admin
+                      <option value="">Select a Status</option>
+                      <option value="Pending" key="Pending">
+                        Pending
                       </option>
-                      <option value="User" key="User">
-                        User
+                      <option value="Delivering" key="Delivering">
+                        Delivering
+                      </option>
+                      <option value="Finished" key="Finished">
+                        Finished
                       </option>
                     </Field>
-                    {errors.type && touched.type ? (
-                      <div className={classes["error-message"]} id="type">
-                        {errors.type}
+                    {errors.status && touched.status ? (
+                      <div className={classes["error-message"]} id="status">
+                        {errors.status}
                       </div>
                     ) : null}
                   </div>
@@ -199,16 +174,16 @@ export default addAccount;
 
 export const getServerSideProps = async ({req, params}) => {
   const id = params.id;
-  let account = null;
+  let order = null;
 
   try {
-    account = await axios.get(`/api/account/${id}`, {
+    order = await axios.get(`/api/order/${id}`, {
       withCredentials: true,
       headers: {
         Cookie: req.headers.cookie,
       },
     });
-    account = account.data;
+    order = order.data;
   } catch (e) {
     if (e.response) {
       console.log(e.response.status);
@@ -220,7 +195,7 @@ export const getServerSideProps = async ({req, params}) => {
 
   return {
     props: {
-      account: account,
+      order: order,
     },
   };
 };

@@ -31,7 +31,7 @@ const Header = () => {
           {session && session.admin && <Link href="/admin">WebPanel</Link>}
           <Link href="/">Home</Link>
 
-          <span>Foods</span>
+          <Link href="/orders">Orders</Link>
           <span>About</span>
           {!session && <Link href="/signin">Login</Link>}
           {session && <span onClick={signOut}>Logout</span>}

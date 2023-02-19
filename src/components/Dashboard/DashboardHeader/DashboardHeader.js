@@ -13,6 +13,7 @@ const DashboardHeader = () => {
         <div className={classes.headerLinks}>
           <Link href="/admin/menus">Menus</Link>
           <Link href="/admin/accounts">Account</Link>
+          <Link href="/admin/orders">Orders</Link>
           <div onClick={signOut}>Logout</div>
         </div>
       </div>

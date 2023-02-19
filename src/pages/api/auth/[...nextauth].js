@@ -60,8 +60,8 @@ export default NextAuth({
     },
     async session({session, token}) {
       if (token) {
-        // session.admin = false;
-        session.admin = true; // Development purpose
+        session.admin = false;
+        // session.admin = true; // Development purpose
 
         session.id = token.id;
         const {db} = await connectToDatabase();

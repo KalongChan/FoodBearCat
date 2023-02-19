@@ -45,7 +45,7 @@ const Accounts = (props) => {
       },
       {
         Header: "Name",
-        accessor: "account",
+        accessor: "username",
       },
       {
         Header: "User Type",
@@ -67,7 +67,7 @@ const Accounts = (props) => {
               onClick={() =>
                 openModal({
                   id: row.original._id,
-                  account: row.original.account,
+                  account: row.original.username,
                 })
               }
             >

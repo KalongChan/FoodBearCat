@@ -59,10 +59,11 @@ const CreditCardForm = (props) => {
       <Formik
         innerRef={ref}
         initialValues={initialValues}
-        validationSchema={CreditCartSchema}
+        // validationSchema={CreditCartSchema}
         onSubmit={(values) => {
           // same shape as initial values
           props.submitHandler(values);
+          initialValues = values;
         }}
       >
         {({errors, touched}) => (
