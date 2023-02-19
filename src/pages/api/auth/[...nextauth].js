@@ -2,12 +2,12 @@ import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import {connectToDatabase} from "../../../util/mongodb";
 
-const getUser = async (account, password) => {
+const getUser = async (username, password) => {
   const {db} = await connectToDatabase();
-  let response = await db.collection("accounts").findOne({account: account});
+  let response = await db.collection("accounts").findOne({username: username});
   if (
     response &&
-    response.account === account &&
+    response.username === username &&
     response.password === password
   ) {
     return response;
@@ -28,24 +28,23 @@ export default NextAuth({
 
           if (
             response &&
-            credentials.username === response.account &&
+            credentials.username === response.username &&
             credentials.password === response.password
           ) {
             return {
               id: response._id,
-              name: response.account,
+              name: response.username,
             };
           }
         }
         // login failed
 
-        if (credentials.username === "" && credentials.password === "") {
-          return {
-            id: 2,
-            name: "John",
-          };
-        }
-        throw new Error("1"); //Error 1 > wrong username or password
+        // if (credentials.username === "" && credentials.password === "") {
+        //   return {
+        //     id: 2,
+        //     name: "John",
+        //   };
+        // }
       },
     }),
   ],
@@ -68,7 +67,7 @@ export default NextAuth({
         const {db} = await connectToDatabase();
         const response = await db
           .collection("accounts")
-          .findOne({account: token.name});
+          .findOne({username: token.name});
         if (response && response.type === "Admin") {
           session.admin = true;
         }

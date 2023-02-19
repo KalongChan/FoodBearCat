@@ -25,7 +25,9 @@ const Login = (props) => {
             <div className={classes.title}>Login</div>
 
             <div className={classes["form-item"]}>
-              <div className={classes["error-message"]}></div>
+              <div className={classes["error-message"]}>
+                {props.loginError ? props.loginError : ""}
+              </div>
               <div className={classes["form-row"]}>
                 <label htmlFor="username">
                   <RiAccountBoxFill />

@@ -13,19 +13,19 @@ const addMenu = () => {
   const router = useRouter();
 
   let initialValues = {
-    account: "",
+    username: "",
     password: "",
     type: "",
   };
 
   const menuSchema = Yup.object().shape({
-    account: Yup.string().required("Required"),
+    username: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
     type: Yup.string().required("Required"),
   });
 
   const menuForm = [
-    {type: "account", label: "Name"},
+    {type: "username", label: "Name"},
     {type: "password", label: "Password"},
     {type: "type", label: "User Type"},
   ];
@@ -73,18 +73,18 @@ const addMenu = () => {
                 <Form>
                   <div
                     className={`${classes["form-item"]}
-               ${errors.account && touched.account ? classes.error : ""}`}
+               ${errors.username && touched.username ? classes.error : ""}`}
                   >
-                    <label htmlFor="account">User Name</label>
+                    <label htmlFor="username">User Name</label>
 
                     <Field
                       className={classes.input}
-                      name="account"
-                      id="account"
+                      name="username"
+                      id="username"
                     />
-                    {errors.account && touched.account ? (
+                    {errors.username && touched.username ? (
                       <div className={classes["error-message"]}>
-                        {errors.account}
+                        {errors.username}
                       </div>
                     ) : null}
                   </div>

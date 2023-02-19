@@ -38,8 +38,11 @@ const Register = (props) => {
               <div className={classes.title}>Register</div>
               <div className={classes["form-item"]}>
                 <div className={classes["error-message"]}>
-                  {errors.username && touched.username ? errors.username : ""}
+                  {errors.username && touched.username
+                    ? errors.username
+                    : props.error}
                 </div>
+
                 <div className={classes["form-row"]}>
                   <label htmlFor="username">
                     <RiAccountBoxFill />
