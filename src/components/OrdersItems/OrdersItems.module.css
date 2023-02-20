@@ -1,10 +1,9 @@
-.items {
+.orders {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid rgba(0, 0, 0, 0.15);
   padding: 15px;
-  flex-wrap: wrap;
 }
 
 .even {
@@ -12,69 +11,98 @@
 }
 
 .left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  width: 15%;
+  white-space: nowrap;
+}
+
+.left span {
+  font-size: 20px;
+}
+
+.id {
+  font-size: 12px;
+  color: #767676;
+  margin-bottom: 20px;
+}
+
+.time {
+  color: #767676;
+  margin-left: px;
+}
+
+.mobile-price {
+  display: none;
+  color: #767676;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .center {
-  width: 60%;
-  outline: red 1px solid;
-  /* flex-grow: 1; */
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
 }
 
-.info {
-  width: 100%;
-  margin-left: 50px;
+.item {
+  display: flex;
+  /* justify-content: center; */
+  align-content: center;
 }
 
-.info h3 {
-  font-size: 1.25rem;
-}
-
-.description,
-.subtotal {
+.item-left {
   margin-bottom: 20px;
-  line-height: 1.1rem;
+  margin-right: 20px;
 }
 
-.subtotal {
-  /* font-weight: 700; */
+.item-right {
+  width: 100%;
+}
+
+.item-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 40px 0;
+}
+
+.item-price {
+  position: relative;
   color: #767676;
 }
 
-.qty-btn {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.item-price::after {
+  position: absolute;
+  content: " ";
+  bottom: 0;
+  left: 0;
   width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.btn-group button {
-  width: 35px;
-  padding: 0.75rem 0;
-  margin: 10px 0;
-
-  border: 1px solid #ab3c2a;
-  background-color: #ab3c2a;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+.right {
+  width: 10%;
+  display: flex;
+  justify-content: flex-end;
+  color: #767676;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.btn-group span {
-  padding: 0 25px;
-}
+@media (max-width: 576px) {
+  .orders {
+    display: block;
+  }
 
-.remove-btn {
-  width: 100% !important;
-}
-
-@media (max-width: 768px) {
-  .btn-group {
+  .left {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mobile-price {
+    display: flex;
+  }
+
+  .right {
+    display: none;
   }
 }

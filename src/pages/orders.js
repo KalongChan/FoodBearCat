@@ -1,5 +1,3 @@
-import {useDispatch, useSelector} from "react-redux";
-
 import OrdersItems from "../components/OrdersItems/OrdersItems";
 import classes from "../styles/pagesStyles/cart.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
@@ -7,24 +5,54 @@ import Link from "next/link";
 import {Fade} from "react-awesome-reveal";
 import Image from "next/image";
 import {connectToDatabase} from "../util/mongodb";
-import {getSession} from "next-auth/react";
+import {getSession, useSession} from "next-auth/react";
+import {useRouter} from "next/router";
 
 const orders = ({orders}) => {
-  const dispatch = useDispatch();
-
+  const router = useRouter();
+  const currentSession = useSession();
   const hasOrders = orders.length !== 0;
+
+  if (currentSession.status === "loading") {
+    return <div></div>;
+  }
 
   return (
     <Fade>
-      {!hasOrders && (
+      {currentSession.status === "unauthenticated" && (
+        <div className={classes.cart}>
+          <CartContainer>
+            <div className={classes["cart-title"]}>
+              <h2>My orders</h2>
+            </div>
+            <div className={classes["not-login"]}>
+              <h3>
+                Please <span onClick={() => router.push("/signin")}>login</span>{" "}
+                to view your order history
+              </h3>
+              <div>
+                <Image
+                  src="/img/internet_nidankai_ninsyou_man.png"
+                  alt=""
+                  width={640}
+                  height={560}
+                  layout="responsive"
+                ></Image>
+              </div>
+            </div>
+          </CartContainer>
+        </div>
+      )}
+
+      {!hasOrders && currentSession.status === "authenticated" && (
         <div className={classes.empty}>
           <Image
-            src="/img/shopping_cart_woman.png"
+            src="/img/kaimono_kago.png"
             alt=""
             height={400}
             width={400}
           ></Image>
-          <h2>Your Cart is Empty</h2>
+          <h2>You haven't placed any orders yet</h2>
         </div>
       )}
       {hasOrders && (
@@ -45,21 +73,6 @@ const orders = ({orders}) => {
                 status={item.status}
               />
             ))}
-
-            <div className={classes["check-out-group"]}>
-              <Link
-                href="/"
-                className={`${classes["back-button"]} ${classes["check-out-btn"]}`}
-              >
-                Order More
-              </Link>
-              <Link
-                href="/checkout"
-                className={`${classes.button} ${classes["check-out-btn"]}`}
-              >
-                Check Out
-              </Link>
-            </div>
           </CartContainer>
         </div>
       )}
@@ -73,14 +86,9 @@ export const getServerSideProps = async ({req, res}) => {
   const session = await getSession({req});
 
   const {db} = await connectToDatabase();
-  let menus = await db.collection("menus").find().toArray();
-  menus = JSON.parse(JSON.stringify(menus));
-  let categories = await db.collection("categories").find().toArray();
-  categories = JSON.parse(JSON.stringify(categories));
-
   const response = await db
     .collection("orders")
-    .find({orderedBy: session.id})
+    .find({orderedBy: session?.id})
     .toArray();
 
   const orders = await JSON.parse(JSON.stringify(response));
