@@ -1,38 +1,98 @@
 import {Formik, Form, Field} from "formik";
 import * as Yup from "yup";
-import Link from "next/link";
-import {Fragment, useRef} from "react";
+import {Fragment, useEffect, useState} from "react";
 
 import classes from "./CreditCardForm.module.css";
+import CreditCard from "../CreditCard/CreditCard";
 
 let initialValues = {
-  fullName: "",
+  cardHolder: "",
   expiryDate: "",
-  expiryYear: "",
   cardNumber: "",
   ccv: "",
 };
 
-const CreditCardForm = (props) => {
-  const ref = useRef();
+let creditCardData = null;
 
-  const CreditCartSchema = Yup.object().shape({
-    fullName: Yup.string().required("Required"),
+const CreditCardForm = (props) => {
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardHolder, setCardHolder] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [ccv, setCcv] = useState("");
+  const [flipCard, setFlipCard] = useState(false);
+
+  const cardNumberHandler = (input) => {
+    //Filter all non-digit character
+    setCardNumber(input.replace(/[^\d]+/g, ""));
+    initialValues = "";
+  };
+
+  const cardHolderHandler = (input) => {
+    //Filter all non-letter character
+    setCardHolder(input.replace(/^\d+$/, ""));
+    initialValues = "";
+  };
+
+  const expiryDateHandler = (input) => {
+    //Filter all non-digit character
+    setExpiryDate(input.replace(/[^\d]+/g, ""));
+    initialValues = "";
+  };
+
+  const ccvHandler = (input) => {
+    setCcv(input.replace(/[^\d]+/g, ""));
+    initialValues = "";
+  };
+
+  const flipCardHandler = () => {
+    console.log("flip");
+    setFlipCard(!flipCard);
+  };
+
+  const submitDataHandler = () => {
+    // creditCardData = {
+    //   cardHolder: cardHolder,
+    //   expiryDate: expiryDate,
+    //   cardNumber: cardNumber,
+    //   ccv: ccv,
+    // };
+  };
+
+  const cardNumberFormatter = (value) => {
+    //Add space after every 4th character
+    return value
+      .replace(/[^\dA-Z]/g, "")
+      .replace(/(.{4})/g, "$1 ")
+      .trim();
+  };
+
+  const expiryDateFormatter = (value) => {
+    //Add forward slash after every 2nd character
+    return value
+      .replace(/[^\dA-Z]/g, "")
+      .replace(/^(..)(?!$)|(..)(.)/g, "$1$3/")
+      .trim();
+  };
+
+  useEffect(() => {
+    setCardHolder(initialValues.cardHolder);
+    setCardNumber(initialValues.cardNumber);
+    setExpiryDate(initialValues.expiryDate);
+    setCcv(initialValues.ccv);
+  }, []);
+
+  const CreditCardSchema = Yup.object().shape({
+    cardHolder: Yup.string().required("Required"),
     expiryDate: Yup.string()
       .required("Required")
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .min(2, "Must be exactly 2 digits")
-      .max(2, "Must be exactly 2 digits"),
-    expiryYear: Yup.string()
-      .required("Required")
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .min(4, "Must be exactly 4 digits")
-      .max(4, "Must be exactly 4 digits"),
+      .matches(/^[0-9\/]+$/, "Must be only digits")
+      .min(5, "Must be MM/YY") //4digits + 1 forward slash
+      .max(5, "Must be MM/YY"),
     cardNumber: Yup.string()
       .required("Required")
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .min(16, "Must be exactly 16 digits")
-      .max(16, "Must be exactly 16 digits"),
+      .matches(/^[0-9\s]+$/, "Must be only digits")
+      .min(19, "Must be exactly 16 digits")
+      .max(19, "Must be exactly 16 digits"), //16digits + 3 spaces
     ccv: Yup.string()
       .required("Required")
       .matches(/^[0-9]+$/, "Must be only digits")
@@ -41,54 +101,147 @@ const CreditCardForm = (props) => {
   });
 
   const creditCardForm = [
-    {type: "fullName", label: "Full Name"},
+    {type: "cardHolder", label: "Full Name"},
     {type: "expiryDate", label: "Expiry date"},
-    {type: "expiryYear", label: ""},
     {type: "cardNumber", label: "Card Number"},
     {type: "ccv", label: "CCV"},
   ];
 
   const backHandler = () => {
-    initialValues = ref.current.values;
+    initialValues = {
+      cardHolder: cardHolder,
+      expiryDate: expiryDate,
+      cardNumber: cardNumber,
+      ccv: ccv,
+    };
     props.backHandler();
   };
 
   return (
     <div className={classes.form}>
       <h2>Credit Card Information</h2>
+
+      <CreditCard
+        cardNumber={cardNumber}
+        cardHolder={cardHolder}
+        expiryDate={expiryDate}
+        ccv={ccv}
+        flipCard={flipCard}
+      />
+
       <Formik
-        innerRef={ref}
         initialValues={initialValues}
-        // validationSchema={CreditCartSchema}
+        validationSchema={CreditCardSchema}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={(values) => {
-          // same shape as initial values
+          console.log(values);
           props.submitHandler(values);
-          initialValues = values;
         }}
       >
-        {({errors, touched}) => (
+        {({errors, touched, handleChange, handleBlur}) => (
           <Form>
-            {creditCardForm.map((item) => (
-              <Fragment key={item.type}>
+            <Fragment>
+              <div
+                className={`${classes["form-item"]} }
+             ${errors.cardHolder && touched.cardHolder ? classes.error : ""}`}
+              >
+                <label htmlFor="cardHolder">Full Name</label>
+                <Field
+                  className={classes.input}
+                  name="cardHolder"
+                  id="cardHolder"
+                  value={cardHolder}
+                  onChange={(e) => {
+                    handleChange(e);
+                    cardHolderHandler(e.target.value);
+                  }}
+                />
+                {errors.cardHolder && touched.cardHolder ? (
+                  <div className={classes["error-message"]}>
+                    {errors.cardHolder}
+                  </div>
+                ) : null}
+              </div>
+
+              <div
+                className={`${classes["form-item"]} }
+             ${errors.cardNumber && touched.cardNumber ? classes.error : ""}`}
+              >
+                <label htmlFor="cardNumber">Card Number</label>
+                <Field
+                  className={classes.input}
+                  name="cardNumber"
+                  id="cardNumber"
+                  value={cardNumberFormatter(cardNumber)}
+                  maxLength="19"
+                  onChange={(e) => {
+                    handleChange(e);
+                    cardNumberHandler(e.target.value);
+                  }}
+                />
+                {errors.cardNumber && touched.cardNumber ? (
+                  <div className={classes["error-message"]}>
+                    {errors.cardNumber}
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={classes["split-row"]}>
                 <div
-                  className={`${classes["form-item"]}
-             ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                  key={item.type}
+                  className={`${classes["form-item"]} ${classes["split-item"]} }
+             ${errors.expiryDate && touched.expiryDate ? classes.error : ""}`}
                 >
-                  <label htmlFor={item.type}>{item.label}</label>
+                  <label htmlFor="expiryDate">Expiry Date (DD/YY)</label>
                   <Field
                     className={classes.input}
-                    name={item.type}
-                    id={item.type}
+                    name="expiryDate"
+                    id="expiryDate"
+                    value={expiryDateFormatter(expiryDate)}
+                    maxLength="5"
+                    onChange={(e) => {
+                      handleChange(e);
+                      expiryDateHandler(e.target.value);
+                    }}
                   />
-                  {errors[item.type] && touched[item.type] ? (
+                  {errors.expiryDate && touched.expiryDate ? (
                     <div className={classes["error-message"]}>
-                      {errors[item.type]}
+                      {errors.expiryDate}
                     </div>
                   ) : null}
                 </div>
-              </Fragment>
-            ))}
+
+                <div
+                  className={`${classes["form-item"]} ${classes["split-item"]} }
+             ${errors.ccv && touched.ccv ? classes.error : ""}`}
+                >
+                  <div className={classes.ccv}>
+                    <label htmlFor="ccv">CCV</label>
+                    <Field
+                      className={`${classes.input}`}
+                      name="ccv"
+                      id="ccv"
+                      value={ccv}
+                      maxLength="3"
+                      onFocus={flipCardHandler}
+                      onBlur={(e) => {
+                        flipCardHandler(e);
+                        handleBlur(e);
+                      }}
+                      onChange={(e) => {
+                        handleChange(e);
+                        ccvHandler(e.target.value);
+                      }}
+                    />
+                    {errors.ccv && touched.ccv ? (
+                      <div className={classes["error-message"]}>
+                        {errors.ccv}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </Fragment>
 
             <div className={classes.btns}>
               <div className={classes.back} onClick={backHandler}>

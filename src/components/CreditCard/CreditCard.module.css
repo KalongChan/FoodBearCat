@@ -1,0 +1,113 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 480px;
+  height: 250px;
+  margin-bottom: 30px;
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  padding: 20px 40px;
+  border-radius: 25px;
+  transition: transform 0.4s ease-out;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background-color: #bdbdbd;
+  width: 100%;
+}
+
+.card-back {
+  background-color: black;
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .card-front,
+  .card-back {
+    width: 330px;
+  }
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.card-chip {
+  width: 80px;
+}
+
+.card-logo {
+}
+
+.card-number {
+  height: 28px;
+  font-size: 24px;
+  position: relative;
+  color: #fff;
+}
+
+.card-number::before {
+  font-size: 12px;
+  position: absolute;
+  content: "CARD NUMBER";
+  opacity: 0.6;
+  white-space: nowrap;
+  top: -20px;
+}
+
+.card-second-row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.card-holder {
+  height: 28px;
+  font-size: 24px;
+  position: relative;
+  color: #fff;
+}
+
+.card-holder::before {
+  font-size: 12px;
+  position: absolute;
+  content: "CARD HOLDER";
+  opacity: 0.6;
+  white-space: nowrap;
+  top: -20px;
+}
+
+.card-expiry {
+  height: 28px;
+  font-size: 22px;
+  width: 20%;
+  position: relative;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.card-expiry::before {
+  font-size: 12px;
+  position: absolute;
+  content: "VALID THUR";
+  opacity: 0.6;
+  top: -20px;
+  white-space: nowrap;
+}

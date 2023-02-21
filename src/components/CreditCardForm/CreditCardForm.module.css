@@ -29,6 +29,20 @@
   border-radius: 5px;
 }
 
+.split-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.split-item {
+  width: 100%;
+}
+
+.split-item:last-of-type {
+  margin-left: 20px;
+}
+
 .error label {
   color: #dc3545;
 }

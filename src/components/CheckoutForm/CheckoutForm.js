@@ -44,8 +44,7 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
 
   const creditCardSubmitHandler = async (values) => {
     creditCardData = {...values};
-
-    console.log(contactData);
+    // console.log(creditCardData);
 
     const orderInfo = {
       firstName: contactData.firstName,
@@ -58,18 +57,17 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
       orderedBy: session?.id ? session.id : "Guest",
       status: "Pending",
     };
-    console.log(orderInfo);
-    try {
-      const response = await axios.post("/api/add-order", {...orderInfo});
-      nextStep();
-    } catch (e) {
-      if (e.response) {
-        console.log(e.response.status);
-        console.log(e.response.data.message);
-      } else {
-        console.log(e);
-      }
-    }
+    // try {
+    //   const response = await axios.post("/api/add-order", {...orderInfo});
+    //   nextStep();
+    // } catch (e) {
+    //   if (e.response) {
+    //     console.log(e.response.status);
+    //     console.log(e.response.data.message);
+    //   } else {
+    //     console.log(e);
+    //   }
+    // }
   };
 
   const backHandler = () => {
