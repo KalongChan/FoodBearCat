@@ -35,6 +35,7 @@ function cart() {
           <h2>Your Cart is Empty</h2>
         </div>
       )}
+
       {cartHasItem && (
         <div className={classes.cart}>
           <CartContainer>

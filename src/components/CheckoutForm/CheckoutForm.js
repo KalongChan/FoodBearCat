@@ -1,10 +1,10 @@
 import axios from "axios";
 import {useSession} from "next-auth/react";
-import React, {Fragment, useState} from "react";
-import {useSelector} from "react-redux";
+import React, {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import ContactInfoForm from "../ContactInformation/ContactInfoForm";
 import CreditCardForm from "../CreditCardForm/CreditCardForm";
-import OrderComplete from "../OrderComplete/OrderComplete";
+import classes from "./CheckoutForm.module.css";
 
 let contactData = null;
 let creditCardData = null;
@@ -16,28 +16,16 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+  const [isContactMountedBefore, setIsContactMountedBefore] = useState(false);
 
   const getTimeStamp = () => {
-    // const date = new Date();
-    // const options = {
-    //   day: "2-digit",
-    //   month: "2-digit",
-    //   year: "numeric",
-    //   hour: "2-digit",
-    //   minute: "2-digit",
-    //   second: "2-digit",
-    //   hour12: false,
-    // };
-    // const formattedDate = date
-    //   .toLocaleString("en-US", options)
-    //   .replace(",", "");
-
     const date = new Date();
     const timestamp = date.getTime();
     return timestamp;
   };
 
   const contactSubmitHandler = (values) => {
+    setIsContactMountedBefore(true);
     contactData = {...values};
     nextStep();
   };
@@ -68,6 +56,8 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
     //     console.log(e);
     //   }
     // }
+
+    nextStep();
   };
 
   const backHandler = () => {
@@ -75,9 +65,12 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
   };
 
   return (
-    <Fragment>
+    <div className={` ${classes.wrapper}  `}>
       {currentStep === 1 && (
-        <ContactInfoForm submitHandler={contactSubmitHandler} />
+        <ContactInfoForm
+          submitHandler={contactSubmitHandler}
+          isContactMountedBefore={isContactMountedBefore}
+        />
       )}
       {currentStep === 2 && (
         <CreditCardForm
@@ -85,13 +78,7 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
           submitHandler={creditCardSubmitHandler}
         />
       )}
-      {currentStep === 3 && (
-        <OrderComplete
-          backHandler={backHandler}
-          submitHandler={creditCardSubmitHandler}
-        />
-      )}
-    </Fragment>
+    </div>
   );
 };
 

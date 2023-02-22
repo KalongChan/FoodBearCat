@@ -1,5 +1,6 @@
 import CheckoutCart from "@/components/CheckoutCart/CheckoutCart";
 import CheckoutForm from "@/components/CheckoutForm/CheckoutForm";
+import OrderComplete from "@/components/OrderComplete/OrderComplete";
 import ProgressBar from "@/components/ProgressBar/ProgressBar";
 import classes from "@/styles/pagesStyles/chekoutPage.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
@@ -8,9 +9,9 @@ import {Fade} from "react-awesome-reveal";
 
 function checkout() {
   const initialSteps = [
-    {step: "1", text: "Contact Information"},
+    {step: "1", text: "Contact Info"},
     {step: "2", text: "Payment"},
-    {step: "3", text: "Confirm Order"},
+    {step: "3", text: "Complete"},
   ];
   const [steps, setSteps] = useState(initialSteps);
   const [currentStep, setCurrentStep] = useState(1);
@@ -42,14 +43,9 @@ function checkout() {
             nextStep={nextStep}
             currentStep={currentStep}
           />
-          {currentStep < 3 && (
-            <CheckoutCart
-              prevStep={prevStep}
-              nextStep={nextStep}
-              currentStep={currentStep}
-            />
-          )}
+          {currentStep < 3 && <CheckoutCart />}
         </div>
+        {currentStep === 3 && <OrderComplete />}
       </CartContainer>
     </Fade>
   );

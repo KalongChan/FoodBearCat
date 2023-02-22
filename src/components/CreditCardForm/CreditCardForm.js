@@ -45,33 +45,27 @@ const CreditCardForm = (props) => {
   };
 
   const flipCardHandler = () => {
-    console.log("flip");
     setFlipCard(!flipCard);
-  };
-
-  const submitDataHandler = () => {
-    // creditCardData = {
-    //   cardHolder: cardHolder,
-    //   expiryDate: expiryDate,
-    //   cardNumber: cardNumber,
-    //   ccv: ccv,
-    // };
   };
 
   const cardNumberFormatter = (value) => {
     //Add space after every 4th character
-    return value
-      .replace(/[^\dA-Z]/g, "")
-      .replace(/(.{4})/g, "$1 ")
-      .trim();
+    if (value) {
+      return value
+        .replace(/[^\dA-Z]/g, "")
+        .replace(/(.{4})/g, "$1 ")
+        .trim();
+    }
   };
 
   const expiryDateFormatter = (value) => {
     //Add forward slash after every 2nd character
-    return value
-      .replace(/[^\dA-Z]/g, "")
-      .replace(/^(..)(?!$)|(..)(.)/g, "$1$3/")
-      .trim();
+    if (value) {
+      return value
+        .replace(/[^\dA-Z]/g, "")
+        .replace(/^(..)(?!$)|(..)(.)/g, "$1$3/")
+        .trim();
+    }
   };
 
   useEffect(() => {
@@ -152,6 +146,7 @@ const CreditCardForm = (props) => {
                   name="cardHolder"
                   id="cardHolder"
                   value={cardHolder}
+                  maxLength="20"
                   onChange={(e) => {
                     handleChange(e);
                     cardHolderHandler(e.target.value);
@@ -247,7 +242,7 @@ const CreditCardForm = (props) => {
               <div className={classes.back} onClick={backHandler}>
                 &lt; Back To Last Step
               </div>
-              <button type="submit">Next Step</button>
+              <button type="submit">Order</button>
             </div>
           </Form>
         )}

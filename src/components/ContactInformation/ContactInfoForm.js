@@ -30,8 +30,13 @@ const ContactInformForm = (props) => {
     {type: "address", label: "Address"},
     {type: "phone", label: "Phone"},
   ];
+
   return (
-    <div className={classes.form}>
+    <div
+      className={`${classes.form}
+    ${props.isContactMountedBefore ? classes["form-animation"] : ""}
+    `}
+    >
       <h2>Contact information</h2>
       <Formik
         initialValues={initialValues}
