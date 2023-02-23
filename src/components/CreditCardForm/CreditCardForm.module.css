@@ -1,10 +1,14 @@
 @keyframes fade-in {
-  from {
-    transform: translateX(100%);
+  0% {
+    transform: translateX(20%);
     opacity: 0;
   }
 
-  to {
+  50% {
+    transform: translateX(-3%);
+  }
+
+  100% {
     transform: translateX(0%);
     opacity: 1;
   }
@@ -13,7 +17,7 @@
 .form {
   width: 100%;
   padding-right: 20px;
-  animation: fade-in 400ms ease-in-out;
+  animation: fade-in 0.8s ease-in-out;
 }
 
 @media (max-width: 1024px) {

@@ -6,11 +6,13 @@ import classes from "../styles/pagesStyles/cart.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
 import Link from "next/link";
 import {Fade} from "react-awesome-reveal";
-import {Fragment} from "react";
 import Image from "next/image";
+import {useSession} from "next-auth/react";
 
 function cart() {
   const dispatch = useDispatch();
+  const session = useSession();
+
   const items = useSelector((state) => state.cart.items);
   const removeAllHandler = () => {
     dispatch(removeAllItems());
@@ -59,6 +61,14 @@ function cart() {
               />
             ))}
             <h2 className={classes["total-amount"]}>Total: ${totalAmount}</h2>
+            {session.status === "unauthenticated" && (
+              <h3 className={classes["check-out-group"]}>
+                <Link className={classes.login} href="/signin">
+                  Login
+                </Link>
+                &nbsp;and track your order status
+              </h3>
+            )}
             <div className={classes["check-out-group"]}>
               <Link
                 href="/"

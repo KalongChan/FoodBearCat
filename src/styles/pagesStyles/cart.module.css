@@ -35,6 +35,10 @@
   justify-content: flex-end;
 }
 
+.login {
+  color: #ab3c2a;
+}
+
 .check-out-btn {
   margin-right: 10px;
 }
