@@ -1,6 +1,6 @@
 .outer-container {
-  height: 100vh;
-  background-color: #f3f4f6;
+  padding: 20px 24px;
+  height: 100%;
 }
 
 .container {
