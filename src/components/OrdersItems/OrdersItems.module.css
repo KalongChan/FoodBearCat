@@ -4,14 +4,28 @@
   align-items: center;
   border-bottom: 2px solid rgba(0, 0, 0, 0.15);
   padding: 15px;
+  z-index: 1;
 }
 
 .even {
+  position: relative;
   background-color: #f5f7fa;
 }
 
+.even:before {
+  content: " ";
+  position: absolute;
+  background-color: #f5f7fa;
+  top: 0;
+  left: -24px;
+  right: -24px;
+  bottom: 0;
+  height: 100%;
+  z-index: -1;
+}
+
 .left {
-  width: 15%;
+  width: 20%;
   white-space: nowrap;
 }
 
@@ -87,7 +101,7 @@
   font-weight: bold;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 1024px) {
   .orders {
     display: block;
   }
@@ -96,6 +110,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
   }
 
   .mobile-price {
