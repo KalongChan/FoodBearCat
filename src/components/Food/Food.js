@@ -35,8 +35,6 @@ const Food = ({_id, name, category, description, price, image}) => {
 
         <Image
           src={image}
-          // src={`/img/Menu/${index}.jpg`}
-          // src="/img/delivery_jitensya.png"
           alt=""
           height={400}
           width={400}
