@@ -136,6 +136,7 @@ const Header = () => {
         <ul>
           {session && session.admin && (
             <li
+              className={`${currentPath === "/admin" ? classes.active : ""}`}
               onClick={() => {
                 router.push("/admin");
               }}
@@ -144,6 +145,7 @@ const Header = () => {
             </li>
           )}
           <li
+            className={`${currentPath === "/" ? classes.active : ""}`}
             onClick={() => {
               router.push("/");
             }}
@@ -152,6 +154,7 @@ const Header = () => {
           </li>
 
           <li
+            className={`${currentPath === "/about" ? classes.active : ""}`}
             onClick={() => {
               router.push("/about");
             }}
@@ -159,6 +162,7 @@ const Header = () => {
             About
           </li>
           <li
+            className={`${currentPath === "/orders" ? classes.active : ""}`}
             onClick={() => {
               router.push("/orders");
             }}
@@ -167,6 +171,7 @@ const Header = () => {
           </li>
           {!session && (
             <li
+              className={`${currentPath === "/signin" ? classes.active : ""}`}
               onClick={() => {
                 router.push("/signin");
               }}
@@ -177,7 +182,7 @@ const Header = () => {
           {session && (
             <li
               onClick={() => {
-                signOut;
+                signOut();
               }}
             >
               Logout
@@ -188,7 +193,9 @@ const Header = () => {
             onClick={() => {
               router.push("/cart");
             }}
-            className={`${classes.cart} ${btnAnimation ? classes.bump : ""}`}
+            className={`${classes.cart} ${btnAnimation ? classes.bump : ""}
+           ${currentPath === "/cart" ? classes["collaps-active"] : ""}
+           `}
           >
             <HiOutlineShoppingCart />
             <span className={classes["small-cart-number"]}>
