@@ -1,12 +1,13 @@
-import classes from "./Header.module.css";
+import classes from "./MobileHeader.module.css";
 import {HiOutlineShoppingCart} from "react-icons/hi";
+import {GiHamburgerMenu} from "react-icons/gi";
+import Link from "next/link";
 import {Fragment, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
-import MobileHeader from "../MobileHeader/MobileHeader";
 
-const Header = () => {
+const MobileHeader = () => {
   const items = useSelector((state) => state.cart.items);
   const [btnAnimation, setBtnAnimation] = useState(false);
   const [collaps, setCollaps] = useState(false);
@@ -35,21 +36,19 @@ const Header = () => {
   }, []);
 
   const {data: session, status} = useSession();
-  const currentPath = router.pathname;
 
   return (
-    // <MobileHeader />
     <Fragment>
-      <div className={classes["main-header"]}>
+      <div className={classes["mobile-header"]}>
         {/* Header left */}
-        <div className={classes["header-left"]}>
+        <div className={classes["hamburger-menu"]}>
           <div
             className={classes.logo}
             onClick={() => {
               router.push("/");
             }}
           >
-            FoodBearCat
+            <GiHamburgerMenu />
           </div>
         </div>
         {/* Header Right */}
@@ -57,7 +56,6 @@ const Header = () => {
           <ul>
             {session && session.admin && (
               <li
-                className={`${currentPath === "/admin" ? classes.active : ""}`}
                 onClick={() => {
                   router.push("/admin");
                 }}
@@ -66,7 +64,6 @@ const Header = () => {
               </li>
             )}
             <li
-              className={`${currentPath === "/" ? classes.active : ""}`}
               onClick={() => {
                 router.push("/");
               }}
@@ -75,7 +72,6 @@ const Header = () => {
             </li>
 
             <li
-              className={`${currentPath === "/about" ? classes.active : ""}`}
               onClick={() => {
                 router.push("/about");
               }}
@@ -87,15 +83,10 @@ const Header = () => {
                 router.push("/orders");
               }}
             >
-              <span
-                className={`${currentPath === "/orders" ? classes.active : ""}`}
-              >
-                Orders
-              </span>
+              Orders
             </li>
             {!session && (
               <li
-                className={`${currentPath === "/signin" ? classes.active : ""}`}
                 onClick={() => {
                   router.push("/signin");
                 }}
@@ -117,9 +108,7 @@ const Header = () => {
               onClick={() => {
                 router.push("/cart");
               }}
-              className={`${classes.cart} ${btnAnimation ? classes.bump : ""} ${
-                currentPath === "cart" ? classes.active : ""
-              }`}
+              className={`${classes.cart} ${btnAnimation ? classes.bump : ""}`}
             >
               <HiOutlineShoppingCart />
               <span className={classes["cart-number"]}>{totalCartItems}</span>
@@ -200,4 +189,4 @@ const Header = () => {
     </Fragment>
   );
 };
-export default Header;
+export default MobileHeader;
