@@ -1,6 +1,6 @@
 import classes from "./Header.module.css";
 import {HiOutlineShoppingCart} from "react-icons/hi";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useCallback, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
@@ -38,8 +38,8 @@ const Header = () => {
   const currentPath = router.pathname;
 
   return (
-    // <MobileHeader />
     <Fragment>
+      <MobileHeader />
       <div className={classes["main-header"]}>
         {/* Header left */}
         <div className={classes["header-left"]}>
@@ -106,7 +106,7 @@ const Header = () => {
             {session && (
               <li
                 onClick={() => {
-                  signOut;
+                  signOut();
                 }}
               >
                 Logout
