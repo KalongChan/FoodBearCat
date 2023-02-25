@@ -42,7 +42,7 @@
   font-size: 32px !important;
 }
 
-.active::after {
+.active-link::after {
   position: absolute;
   content: "";
   transform: translate(-50%, -50%);
@@ -192,4 +192,11 @@
 .show-collaps-down {
   opacity: 1;
   animation: slide-down 0.4s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .main-header,
+  .collapsing-header {
+    display: none;
+  }
 }

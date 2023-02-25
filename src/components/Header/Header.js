@@ -57,7 +57,9 @@ const Header = () => {
           <ul>
             {session && session.admin && (
               <li
-                className={`${currentPath === "/admin" ? classes.active : ""}`}
+                className={`${
+                  currentPath === "/admin" ? classes["active-link"] : ""
+                }`}
                 onClick={() => {
                   router.push("/admin");
                 }}
@@ -66,7 +68,7 @@ const Header = () => {
               </li>
             )}
             <li
-              className={`${currentPath === "/" ? classes.active : ""}`}
+              className={`${currentPath === "/" ? classes["active-link"] : ""}`}
               onClick={() => {
                 router.push("/");
               }}
@@ -75,7 +77,9 @@ const Header = () => {
             </li>
 
             <li
-              className={`${currentPath === "/about" ? classes.active : ""}`}
+              className={`${
+                currentPath === "/about" ? classes["active-link"] : ""
+              }`}
               onClick={() => {
                 router.push("/about");
               }}
@@ -88,14 +92,18 @@ const Header = () => {
               }}
             >
               <span
-                className={`${currentPath === "/orders" ? classes.active : ""}`}
+                className={`${
+                  currentPath === "/orders" ? classes["active-link"] : ""
+                }`}
               >
                 Orders
               </span>
             </li>
             {!session && (
               <li
-                className={`${currentPath === "/signin" ? classes.active : ""}`}
+                className={`${
+                  currentPath === "/signin" ? classes["active-link"] : ""
+                }`}
                 onClick={() => {
                   router.push("/signin");
                 }}
@@ -118,7 +126,7 @@ const Header = () => {
                 router.push("/cart");
               }}
               className={`${classes.cart} ${btnAnimation ? classes.bump : ""} ${
-                currentPath === "cart" ? classes.active : ""
+                currentPath === "/cart" ? classes["active-link"] : ""
               }`}
             >
               <HiOutlineShoppingCart />
@@ -136,7 +144,9 @@ const Header = () => {
         <ul>
           {session && session.admin && (
             <li
-              className={`${currentPath === "/admin" ? classes.active : ""}`}
+              className={`${
+                currentPath === "/admin" ? classes["active-link"] : ""
+              }`}
               onClick={() => {
                 router.push("/admin");
               }}
@@ -145,7 +155,7 @@ const Header = () => {
             </li>
           )}
           <li
-            className={`${currentPath === "/" ? classes.active : ""}`}
+            className={`${currentPath === "/" ? classes["active-link"] : ""}`}
             onClick={() => {
               router.push("/");
             }}
@@ -154,7 +164,9 @@ const Header = () => {
           </li>
 
           <li
-            className={`${currentPath === "/about" ? classes.active : ""}`}
+            className={`${
+              currentPath === "/about" ? classes["active-link"] : ""
+            }`}
             onClick={() => {
               router.push("/about");
             }}
@@ -162,7 +174,9 @@ const Header = () => {
             About
           </li>
           <li
-            className={`${currentPath === "/orders" ? classes.active : ""}`}
+            className={`${
+              currentPath === "/orders" ? classes["active-link"] : ""
+            }`}
             onClick={() => {
               router.push("/orders");
             }}
@@ -171,7 +185,9 @@ const Header = () => {
           </li>
           {!session && (
             <li
-              className={`${currentPath === "/signin" ? classes.active : ""}`}
+              className={`${
+                currentPath === "/signin" ? classes["active-link"] : ""
+              }`}
               onClick={() => {
                 router.push("/signin");
               }}

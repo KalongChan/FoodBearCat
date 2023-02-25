@@ -5,7 +5,8 @@ import {Fragment, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
-import MobileSideBar from "@/UI/MobileSideBar/MobileSideBar";
+import MobileSideBar from "@/UI/SideBarBackdrop/SideBarBackdrop";
+import SideBarBackdrop from "@/UI/SideBarBackdrop/SideBarBackdrop";
 
 const MobileHeader = () => {
   const {data: session, status} = useSession();
@@ -34,7 +35,12 @@ const MobileHeader = () => {
     <Fragment>
       <div className={classes["mobile-header"]}>
         <div className={classes["hamburger-menu"]}>
-          <div className={classes["hamburger-icon"]} onClick={sideBarHandler}>
+          <div
+            className={`${classes["hamburger-icon"]} ${
+              showSideBar ? classes["hamburger-icon-active"] : ""
+            }`}
+            onClick={sideBarHandler}
+          >
             <GiHamburgerMenu />
           </div>
           <div
@@ -54,7 +60,7 @@ const MobileHeader = () => {
               }}
               className={`${classes["mobile-cart"]} ${
                 btnAnimation ? classes.bump : ""
-              } ${currentPath === "/cart" ? classes["mobile-active"] : ""}`}
+              } ${currentPath === "/cart" ? classes["active-link"] : ""}`}
             >
               <HiOutlineShoppingCart />
               <span className={classes["mobile-cart-number"]}>
@@ -65,16 +71,25 @@ const MobileHeader = () => {
         </div>
       </div>
 
-      <MobileSideBar sideBarHandler={sideBarHandler} showSideBar={showSideBar}>
-        <div className={classes["side-bar"]}>
+      <div className="mobile-side-bar">
+        <SideBarBackdrop
+          sideBarHandler={sideBarHandler}
+          showSideBar={showSideBar}
+        />
+        <div
+          className={`${classes["side-bar-main"]} ${
+            showSideBar ? classes["side-bar-active"] : ""
+          }`}
+        >
           <ul>
             {session && session.admin && (
               <li
                 className={`${
-                  currentPath === "/admin" ? classes["mobile-active"] : ""
+                  currentPath === "/admin" ? classes["mobile-active-link"] : ""
                 }`}
                 onClick={() => {
                   router.push("/admin");
+                  sideBarHandler();
                 }}
               >
                 WebPanel
@@ -82,11 +97,11 @@ const MobileHeader = () => {
             )}
             <li
               className={`${
-                currentPath === "/" ? classes["mobile-active"] : ""
+                currentPath === "/" ? classes["mobile-active-link"] : ""
               }`}
               onClick={() => {
                 router.push("/");
-                // sideBarHandler();
+                sideBarHandler();
               }}
             >
               Home
@@ -94,10 +109,11 @@ const MobileHeader = () => {
 
             <li
               className={`${
-                currentPath === "/about" ? classes["mobile-active"] : ""
+                currentPath === "/about" ? classes["mobile-active-link"] : ""
               }`}
               onClick={() => {
                 router.push("/about");
+                sideBarHandler();
               }}
             >
               About
@@ -105,23 +121,39 @@ const MobileHeader = () => {
             <li
               onClick={() => {
                 router.push("/orders");
+                sideBarHandler();
               }}
             >
               <span
                 className={`${
-                  currentPath === "/orders" ? classes["mobile-active"] : ""
+                  currentPath === "/orders" ? classes["mobile-active-link"] : ""
                 }`}
               >
                 Orders
               </span>
             </li>
+            <li
+              onClick={() => {
+                router.push("/cart");
+                sideBarHandler();
+              }}
+            >
+              <span
+                className={`${
+                  currentPath === "/cart" ? classes["mobile-active-link"] : ""
+                }`}
+              >
+                Cart
+              </span>
+            </li>
             {!session && (
               <li
                 className={`${
-                  currentPath === "/signin" ? classes["mobile-active"] : ""
+                  currentPath === "/signin" ? classes["mobile-active-link"] : ""
                 }`}
                 onClick={() => {
                   router.push("/signin");
+                  sideBarHandler();
                 }}
               >
                 Login
@@ -131,6 +163,7 @@ const MobileHeader = () => {
               <li
                 onClick={() => {
                   signOut();
+                  sideBarHandler();
                 }}
               >
                 Logout
@@ -138,7 +171,7 @@ const MobileHeader = () => {
             )}
           </ul>
         </div>
-      </MobileSideBar>
+      </div>
     </Fragment>
   );
 };

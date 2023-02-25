@@ -1,4 +1,5 @@
 .mobile-header {
+  display: none !important;
   position: sticky;
   top: 0;
   width: 100%;
@@ -25,6 +26,11 @@
   font-weight: bold;
   cursor: pointer;
   margin-right: 25px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-icon-active {
+  transform: rotate(90deg);
 }
 
 .logo {
@@ -47,7 +53,6 @@
   width: 65px;
   border-radius: 5px;
   list-style: none;
-  cursor: pointer;
   padding: 10px;
 }
 
@@ -91,7 +96,7 @@
   border-radius: 10px;
 }
 
-.active::after {
+.active-link::after {
   position: absolute;
   content: "";
   transform: translateX(-50%);
@@ -104,21 +109,37 @@
 
 /* Side Bar */
 
-.side-bar ul {
+.side-bar-main {
+  position: fixed;
+  width: 260px;
+  height: 100%;
+  background-color: #eef1f6;
+  top: 49px;
+  z-index: 999;
+  left: -100%;
+  transition: 0.3s ease;
+}
+
+.side-bar-active {
+  left: 0;
+}
+
+.side-bar-main ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.side-bar li {
+.side-bar-main li {
   position: relative;
   display: flex;
   align-items: center;
   padding: 24px;
   height: 50px;
+  cursor: pointer;
 }
 
-.side-bar li::after {
+.side-bar-main li::after {
   position: absolute;
   content: " ";
   bottom: 0;
@@ -128,12 +149,24 @@
   background-color: rgba(0, 0, 0, 0.15);
 }
 
-.mobile-active::before {
+.mobile-active-link::before {
   position: absolute;
   content: "";
   bottom: 0;
   left: 0;
   width: 10px;
   height: 100%;
-  background-color: #31353d;
+  background-color: #3cb371;
+}
+
+@media (max-width: 768px) {
+  .mobile-header {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .side-bar-main {
+    display: none;
+  }
 }
