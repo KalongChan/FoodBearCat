@@ -1,4 +1,5 @@
-import {Fragment, useEffect} from "react";
+import CustomerReviews from "@/components/CustomerReviews/CustomerReviews";
+import {Fragment} from "react";
 
 import Banner from "../components/Banner/Banner";
 import Info from "../components/Info/Info";
@@ -11,6 +12,7 @@ export default function Home(props) {
       <Banner />
       <Info />
       <Menu menus={props?.menus} categories={props?.categories} />
+      <CustomerReviews />
     </Fragment>
   );
 }

@@ -24,7 +24,7 @@ const Menu = ({menus, categories}) => {
     <Fragment>
       <div className={classes.menu} id="menu">
         <Container>
-          <h2>Menu</h2>
+          <div className={classes["menu-title"]}>Menu</div>
 
           {/* Category Buttons */}
           <div className={classes.categories}>

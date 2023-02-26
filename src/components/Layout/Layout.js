@@ -2,6 +2,7 @@ import {Fragment, useEffect} from "react";
 import Header from "../Header/Header";
 import {getLocalStorageData} from "@/store/cartSlice";
 import {store} from "../../store/store";
+import Footer from "../Footer/Footer";
 
 const Layout = ({children}) => {
   useEffect(() => {
@@ -16,6 +17,7 @@ const Layout = ({children}) => {
     <Fragment>
       <Header />
       {children}
+      <Footer />
     </Fragment>
   );
 };
