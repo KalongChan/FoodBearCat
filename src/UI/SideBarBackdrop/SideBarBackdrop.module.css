@@ -28,7 +28,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768.98px) {
   .backdrop {
     display: none;
   }
