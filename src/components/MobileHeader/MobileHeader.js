@@ -1,11 +1,16 @@
 import classes from "./MobileHeader.module.css";
-import {HiOutlineShoppingCart} from "react-icons/hi";
+import {
+  HiOutlineShoppingCart,
+  HiOutlineInformationCircle,
+} from "react-icons/hi";
+import {AiOutlineHome} from "react-icons/ai";
+import {BsBag} from "react-icons/bs";
+import {GrLogin, GrUserAdmin} from "react-icons/gr";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {Fragment, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
-import MobileSideBar from "@/UI/SideBarBackdrop/SideBarBackdrop";
 import SideBarBackdrop from "@/UI/SideBarBackdrop/SideBarBackdrop";
 
 const MobileHeader = () => {
@@ -92,6 +97,9 @@ const MobileHeader = () => {
                   sideBarHandler();
                 }}
               >
+                <span className={classes["side-bar-icon"]}>
+                  <GrUserAdmin />
+                </span>
                 WebPanel
               </li>
             )}
@@ -104,6 +112,9 @@ const MobileHeader = () => {
                 sideBarHandler();
               }}
             >
+              <span className={classes["side-bar-icon"]}>
+                <AiOutlineHome />
+              </span>
               Home
             </li>
 
@@ -116,35 +127,38 @@ const MobileHeader = () => {
                 sideBarHandler();
               }}
             >
+              <span className={classes["side-bar-icon"]}>
+                <HiOutlineInformationCircle />
+              </span>
               About
             </li>
             <li
+              className={`${
+                currentPath === "/orders" ? classes["mobile-active-link"] : ""
+              }`}
               onClick={() => {
                 router.push("/orders");
                 sideBarHandler();
               }}
             >
-              <span
-                className={`${
-                  currentPath === "/orders" ? classes["mobile-active-link"] : ""
-                }`}
-              >
-                Orders
+              <span className={classes["side-bar-icon"]}>
+                <BsBag />
               </span>
+              Orders
             </li>
             <li
+              className={`${
+                currentPath === "/cart" ? classes["mobile-active-link"] : ""
+              }`}
               onClick={() => {
                 router.push("/cart");
                 sideBarHandler();
               }}
             >
-              <span
-                className={`${
-                  currentPath === "/cart" ? classes["mobile-active-link"] : ""
-                }`}
-              >
-                Cart
+              <span className={classes["side-bar-icon"]}>
+                <HiOutlineShoppingCart />
               </span>
+              Cart
             </li>
             {!session && (
               <li
@@ -156,6 +170,9 @@ const MobileHeader = () => {
                   sideBarHandler();
                 }}
               >
+                <span className={classes["side-bar-icon"]}>
+                  <GrLogin />
+                </span>
                 Login
               </li>
             )}
@@ -166,6 +183,9 @@ const MobileHeader = () => {
                   sideBarHandler();
                 }}
               >
+                <span className={classes["side-bar-icon"]}>
+                  <GrLogin />
+                </span>
                 Logout
               </li>
             )}
