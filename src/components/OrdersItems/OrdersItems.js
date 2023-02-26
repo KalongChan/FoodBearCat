@@ -24,12 +24,20 @@ const CartItems = ({index, id, orderTime, items, totalAmount, status}) => {
     <div className={`${classes.orders} ${index % 2 === 0 ? classes.even : ""}`}>
       <div className={classes.left}>
         <div className={classes.info}>
-          <div className={classes.id}>
-            {<span>#</span>}
-            {`${id}`}
-          </div>
+          <div className={classes.id}>{`${id}`}</div>
           <div className={classes.time}>{convertDate(orderTime)}</div>
           <div className={classes.time}>{convertTime(orderTime)}</div>
+          <div
+            className={`${classes.status} ${
+              status === "Pending" ? classes.pending : ""
+            }
+            ${status === "Delivering" ? classes.delivering : ""}
+            ${status === "Arrived" ? classes.arrived : ""}
+            
+            `}
+          >
+            {status}
+          </div>
         </div>
         <div className={classes["mobile-price"]}>{`$${totalAmount}`}</div>
       </div>
@@ -37,13 +45,7 @@ const CartItems = ({index, id, orderTime, items, totalAmount, status}) => {
         {items.map((item) => (
           <div className={classes.item}>
             <div className={classes["item-left"]}>
-              <Image
-                // src="/img/shopping_cart_woman.png"
-                src={item.image}
-                alt=""
-                height={200}
-                width={200}
-              ></Image>
+              <Image src={item.image} alt="" height={200} width={200}></Image>
             </div>
             <div className={classes["item-right"]}>
               <div className={classes["item-name"]}>{item.name}</div>

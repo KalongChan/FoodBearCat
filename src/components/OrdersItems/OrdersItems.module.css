@@ -25,28 +25,44 @@
 }
 
 .left {
+  font-weight: bold;
   width: 20%;
   white-space: nowrap;
 }
 
-.left span {
-  font-size: 20px;
-}
-
 .id {
   font-size: 12px;
-  color: #767676;
   margin-bottom: 20px;
 }
 
 .time {
-  color: #767676;
-  margin-left: px;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100px;
+  padding: 5px;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.pending {
+  background-color: #007bff;
+}
+
+.delivering {
+  background-color: #ffc107;
+}
+
+.arrived {
+  background-color: #28a745;
 }
 
 .mobile-price {
   display: none;
-  color: #767676;
   font-size: 24px;
   font-weight: bold;
 }
@@ -96,7 +112,6 @@
   width: 10%;
   display: flex;
   justify-content: flex-end;
-  color: #767676;
   font-size: 24px;
   font-weight: bold;
 }

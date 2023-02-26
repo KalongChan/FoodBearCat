@@ -142,8 +142,8 @@ const addAccount = ({order}) => {
                       <option value="Delivering" key="Delivering">
                         Delivering
                       </option>
-                      <option value="Finished" key="Finished">
-                        Finished
+                      <option value="Arrived" key="Arrived">
+                        Arrived
                       </option>
                     </Field>
                     {errors.status && touched.status ? (
