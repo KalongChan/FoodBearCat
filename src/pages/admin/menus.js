@@ -119,9 +119,6 @@ const Menus = (props) => {
   if (session && session.admin) {
     return (
       <Fragment>
-        Signed in as {session?.user.name} <br />
-        Signed in as {session?.id} <br />
-        Signed in as {session?.admin} <br />
         <TableContainer>
           {showModal && (
             <Modal showModal={showModal} setShowModal={setShowModal}>
