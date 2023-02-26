@@ -45,17 +45,17 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
       orderedBy: session?.id ? session.id : "Guest",
       status: "Pending",
     };
-    // try {
-    //   const response = await axios.post("/api/add-order", {...orderInfo});
-    //   nextStep();
-    // } catch (e) {
-    //   if (e.response) {
-    //     console.log(e.response.status);
-    //     console.log(e.response.data.message);
-    //   } else {
-    //     console.log(e);
-    //   }
-    // }
+    try {
+      const response = await axios.post("/api/add-order", {...orderInfo});
+      nextStep();
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.status);
+        console.log(e.response.data.message);
+      } else {
+        console.log(e);
+      }
+    }
 
     nextStep();
   };

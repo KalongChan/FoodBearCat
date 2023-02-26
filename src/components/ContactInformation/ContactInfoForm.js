@@ -1,6 +1,6 @@
 import {Formik, Form, Field} from "formik";
 import Link from "next/link";
-import {Fragment} from "react";
+import {Fragment, useEffect} from "react";
 import * as Yup from "yup";
 import classes from "./ContactInfoForm.module.css";
 
@@ -39,7 +39,18 @@ const ContactInformForm = (props) => {
     >
       <h2>Contact information</h2>
       <Formik
-        initialValues={initialValues}
+        //Reset initialValues after leaving /checkout
+        initialValues={
+          props.isContactMountedBefore
+            ? initialValues
+            : {
+                email: "",
+                firstName: "",
+                lastName: "",
+                address: "",
+                phone: "",
+              }
+        }
         // validationSchema={ContactInformSchema}
         onSubmit={(values) => {
           props.submitHandler(values);

@@ -21,27 +21,24 @@ const CreditCardForm = (props) => {
   const [ccv, setCcv] = useState("");
   const [flipCard, setFlipCard] = useState(false);
 
+  const cardHolderHandler = (input) => {
+    //Filter all non-letter character
+    setCardHolder(input.replace(/[^A-Za-z\s]/g, ""));
+  };
+
   const cardNumberHandler = (input) => {
     //Filter all non-digit character
     setCardNumber(input.replace(/[^\d]+/g, ""));
-    initialValues = "";
-  };
-
-  const cardHolderHandler = (input) => {
-    //Filter all non-letter character
-    setCardHolder(input.replace(/^\d+$/, ""));
-    initialValues = "";
   };
 
   const expiryDateHandler = (input) => {
     //Filter all non-digit character
     setExpiryDate(input.replace(/[^\d]+/g, ""));
-    initialValues = "";
   };
 
   const ccvHandler = (input) => {
+    //Filter all non-digit character
     setCcv(input.replace(/[^\d]+/g, ""));
-    initialValues = "";
   };
 
   const flipCardHandler = () => {
@@ -50,22 +47,18 @@ const CreditCardForm = (props) => {
 
   const cardNumberFormatter = (value) => {
     //Add space after every 4th character
-    if (value) {
-      return value
-        .replace(/[^\dA-Z]/g, "")
-        .replace(/(.{4})/g, "$1 ")
-        .trim();
-    }
+    return value
+      .replace(/[^\dA-Z]/g, "")
+      .replace(/(.{4})/g, "$1 ")
+      .trim();
   };
 
   const expiryDateFormatter = (value) => {
     //Add forward slash after every 2nd character
-    if (value) {
-      return value
-        .replace(/[^\dA-Z]/g, "")
-        .replace(/^(..)(?!$)|(..)(.)/g, "$1$3/")
-        .trim();
-    }
+    return value
+      .replace(/[^\dA-Z]/g, "")
+      .replace(/^(..)(?!$)|(..)(.)/g, "$1$3/")
+      .trim();
   };
 
   useEffect(() => {
@@ -129,8 +122,14 @@ const CreditCardForm = (props) => {
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={(values) => {
-          console.log(values);
+          //Reset initialValues after submitting
           props.submitHandler(values);
+          initialValues = {
+            cardHolder: "",
+            expiryDate: "",
+            cardNumber: "",
+            ccv: "",
+          };
         }}
       >
         {({errors, touched, handleChange, handleBlur}) => (
