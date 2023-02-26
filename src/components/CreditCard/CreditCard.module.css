@@ -27,7 +27,7 @@
 
 .card-front,
 .card-back {
-  background-color: #03a9f4;
+  background-color: #3cb371;
   width: 100%;
 }
 
@@ -181,7 +181,7 @@
 @media (max-width: 768px) {
   .card-front,
   .card-back {
-    width: 350px;
+    width: 100%;
     padding: 18px 20px;
   }
 
@@ -198,6 +198,7 @@
   }
 
   .card-expiry {
+    width: 30%;
     font-size: 14px;
   }
 
