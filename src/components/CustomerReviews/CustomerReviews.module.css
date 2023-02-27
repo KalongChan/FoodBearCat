@@ -1,3 +1,9 @@
+.customer-reviews {
+  margin-top: 50px;
+  width: 100%;
+  height: 100%;
+}
+
 .customer-title {
   position: relative;
   text-align: center;
@@ -17,7 +23,7 @@
   background-color: #ab3d2b;
 }
 
-.customer-reviews {
+.reviews {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,7 +55,7 @@
 }
 
 @media (max-width: 768px) {
-  .customer-reviews {
+  .reviews {
     flex-direction: column;
   }
   .review {

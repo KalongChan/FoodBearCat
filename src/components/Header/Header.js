@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import MobileHeader from "../MobileHeader/MobileHeader";
+import BackToTopButton from "../BackToTopButton/BackToTopButton";
 
 const Header = () => {
   const items = useSelector((state) => state.cart.items);
@@ -39,6 +40,7 @@ const Header = () => {
 
   return (
     <Fragment>
+      <BackToTopButton collaps={collaps} />
       <MobileHeader />
       <div className={classes["main-header"]}>
         {/* Header left */}
