@@ -51,7 +51,7 @@ const ContactInformForm = (props) => {
                 phone: "",
               }
         }
-        // validationSchema={ContactInformSchema}
+        validationSchema={ContactInformSchema}
         onSubmit={(values) => {
           props.submitHandler(values);
           initialValues = values;

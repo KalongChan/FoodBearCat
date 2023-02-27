@@ -116,6 +116,14 @@
   font-weight: bold;
 }
 
+@media (max-width: 768px) {
+  .image {
+    width: 150px !important;
+    height: 150px !important;
+    position: relative !important;
+  }
+}
+
 @media (max-width: 1024px) {
   .orders {
     display: block;

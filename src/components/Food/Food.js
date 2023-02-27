@@ -33,14 +33,15 @@ const Food = ({_id, name, category, description, price, image}) => {
       <Fade>
         <div className={classes["menu-category"]}>{category}</div>
 
-        <Image
-          src={image}
-          alt=""
-          height={400}
-          width={400}
-          layout="responsive"
-          // style={{objectFit: "cover"}}
-        ></Image>
+        <div className={classes["image-wrapper"]}>
+          <Image
+            src={image}
+            alt=""
+            height={300}
+            width={300}
+            className={classes.image}
+          ></Image>
+        </div>
         <div className={classes["menu-desc"]}>
           <span>{name}</span>
           <span>{`$${price}`}</span>

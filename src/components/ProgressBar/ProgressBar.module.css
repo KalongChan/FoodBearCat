@@ -11,7 +11,7 @@
   align-content: center;
   position: relative;
   max-width: 100%;
-  width: 350px;
+  width: 300px;
 }
 
 .progress-container::before {
@@ -63,7 +63,7 @@
   align-content: center;
   position: relative;
   max-width: 100%;
-  width: 350px;
+  width: 300px;
 }
 
 .text {

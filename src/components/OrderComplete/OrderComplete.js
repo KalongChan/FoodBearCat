@@ -4,8 +4,8 @@ import {useDispatch} from "react-redux";
 import {removeAllItems} from "@/store/cartSlice";
 
 const OrderComplete = () => {
-  // const dispatch = useDispatch();
-  // dispatch(removeAllItems());
+  const dispatch = useDispatch();
+  dispatch(removeAllItems());
 
   return (
     <div className={classes["order-complete"]}>

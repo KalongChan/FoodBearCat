@@ -97,7 +97,7 @@ const addAccount = ({account}) => {
               Are you sure want to delete{" "}
               <span>{`${currentAccount.account}`}</span> ?
             </h2>
-            <div>
+            <div style={{whiteSpace: "nowrap"}}>
               <button
                 className={classes["sub-btn"]}
                 onClick={() => toggleModal()}

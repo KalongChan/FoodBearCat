@@ -22,7 +22,7 @@ const Menu = ({menus, categories}) => {
 
   return (
     <Fragment>
-      <div className={classes.menu}>
+      <div className={classes.menu} id="menu">
         <Container>
           <div className={classes["menu-title"]}>Menu</div>
 

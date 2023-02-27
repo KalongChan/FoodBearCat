@@ -123,7 +123,7 @@ const Orders = (props) => {
                 Are you sure want to delete order{" "}
                 <span>{`${currentItem.id}`}</span> ?
               </h2>
-              <div>
+              <div style={{whiteSpace: "nowrap"}}>
                 <button
                   className={classes["sub-btn"]}
                   onClick={() => toggleModal()}

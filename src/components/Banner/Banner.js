@@ -6,7 +6,7 @@ import {Slide} from "react-awesome-reveal";
 const Banner = () => {
   const orderNow = () => {
     window.scrollTo({
-      top: document.getElementById("menu").offsetTop - 90,
+      top: document.getElementById("menu").offsetTop - 50,
       behavior: "smooth",
     });
   };

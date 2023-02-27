@@ -45,7 +45,14 @@ const CartItems = ({index, id, orderTime, items, totalAmount, status}) => {
         {items.map((item) => (
           <div className={classes.item}>
             <div className={classes["item-left"]}>
-              <Image src={item.image} alt="" height={200} width={200}></Image>
+              <Image
+                src={item.image}
+                alt=""
+                width="250"
+                height="250"
+                responsive
+                className={classes.image}
+              ></Image>
             </div>
             <div className={classes["item-right"]}>
               <div className={classes["item-name"]}>{item.name}</div>

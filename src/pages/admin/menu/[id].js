@@ -106,7 +106,7 @@ const Menu = ({selectedMenu, categories}) => {
             <h2>
               Are you sure want to delete <span>{`${currentMenu.name}`}</span> ?
             </h2>
-            <div>
+            <div style={{whiteSpace: "nowrap"}}>
               <button
                 className={classes["sub-btn"]}
                 onClick={() => toggleModal()}

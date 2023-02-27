@@ -1,7 +1,7 @@
 import axios from "axios";
 import {useSession} from "next-auth/react";
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import ContactInfoForm from "../ContactInformation/ContactInfoForm";
 import CreditCardForm from "../CreditCardForm/CreditCardForm";
 import classes from "./CheckoutForm.module.css";
@@ -11,6 +11,7 @@ let creditCardData = null;
 
 const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
   const {data: session, status} = useSession();
+
   const items = useSelector((state) => state.cart.items);
   const totalAmount = items.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -48,6 +49,7 @@ const CheckoutForm = ({prevStep, nextStep, currentStep}) => {
     try {
       const response = await axios.post("/api/add-order", {...orderInfo});
       nextStep();
+      removeAllItems();
     } catch (e) {
       if (e.response) {
         console.log(e.response.status);
