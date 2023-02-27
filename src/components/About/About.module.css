@@ -1,0 +1,31 @@
+.about-title {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.about-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.about-text {
+  width: 70%;
+  line-height: 1.5rem;
+}
+
+.about-text a {
+  color: #ab3c2a;
+}
+
+@media (max-width: 768px) {
+  .image {
+    margin-bottom: 20px;
+  }
+
+  .about-info,
+  .about-text {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+}
