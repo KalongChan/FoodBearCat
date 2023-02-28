@@ -113,7 +113,6 @@ const Menus = (props) => {
       router.push("/");
       return;
     }
-    console.log(session);
   }, [session]);
 
   if (session && session.admin) {

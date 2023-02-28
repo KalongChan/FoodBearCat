@@ -145,6 +145,7 @@ export default Accounts;
 
 export const getServerSideProps = async ({req}) => {
   let accounts = null;
+  let data = null;
 
   try {
     accounts = await axios.get("/api/accounts", {
@@ -153,7 +154,7 @@ export const getServerSideProps = async ({req}) => {
         Cookie: req.headers.cookie,
       },
     });
-    accounts = accounts.data;
+    data = await accounts.data;
   } catch (e) {
     if (e.response) {
       console.log(e.response.status);
@@ -164,7 +165,7 @@ export const getServerSideProps = async ({req}) => {
   }
   return {
     props: {
-      accounts: accounts,
+      accounts: data,
     },
   };
 };
