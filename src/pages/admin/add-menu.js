@@ -5,7 +5,7 @@ import {Fragment, useEffect} from "react";
 import * as Yup from "yup";
 import classes from "./add-menus.module.css";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "http://localhost:3000";
 import {toast} from "react-toastify";
 import {useSession} from "next-auth/react";
 
