@@ -18,8 +18,7 @@ const Menu = () => {
   const [currentMenu, setCurrentMenu] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState();
   const [categories, setCategories] = useState([]);
-
-  console.log(id);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -45,6 +44,7 @@ const Menu = () => {
         console.log(e);
       }
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -105,10 +105,6 @@ const Menu = () => {
     image: selectedMenu?.image,
   };
 
-  if (!selectedMenu) {
-    return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
-  }
-
   const menuSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     category: Yup.string().required("Required"),
@@ -131,6 +127,14 @@ const Menu = () => {
     {type: "price", label: "Price"},
     {type: "image", label: "Image URL (400*400)"},
   ];
+
+  if (loading) {
+    return <div>LOADINGGGGGGGGG</div>;
+  }
+
+  if (!selectedMenu && !loading) {
+    return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
+  }
 
   if (session && session.admin) {
     return (
