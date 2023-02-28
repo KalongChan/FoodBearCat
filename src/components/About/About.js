@@ -21,7 +21,11 @@ const About = () => {
         <div className={classes["about-text"]}>
           This is a food ordering website build with Next.js, Redux, and MongoDB
           by{" "}
-          <a href="https://github.com/KalongChan" target="_blank">
+          <a
+            href="https://github.com/KalongChan"
+            target="_blank"
+            rel="noreferrer"
+          >
             Kalong Chan
           </a>{" "}
           to enhance his coding skills.

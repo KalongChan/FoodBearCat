@@ -10,7 +10,7 @@ import classes from "../add-menus.module.css";
 import {useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 
-const addAccount = ({account}) => {
+const AddAccount = ({account}) => {
   const {data: session, status} = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
@@ -195,7 +195,7 @@ const addAccount = ({account}) => {
     );
   }
 };
-export default addAccount;
+export default AddAccount;
 
 export const getServerSideProps = async ({req, params}) => {
   const id = params.id;

@@ -43,7 +43,7 @@ const CartItems = ({index, id, orderTime, items, totalAmount, status}) => {
       </div>
       <div className={classes.center}>
         {items.map((item) => (
-          <div className={classes.item}>
+          <div className={classes.item} key={item.id}>
             <div className={classes["item-left"]}>
               <Image
                 src={item.image}

@@ -8,7 +8,7 @@ import {connectToDatabase} from "../util/mongodb";
 import {getSession, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 
-const orders = ({orders}) => {
+const Orders = ({orders}) => {
   const router = useRouter();
   const currentSession = useSession();
   const hasOrders = orders.length !== 0;
@@ -80,7 +80,7 @@ const orders = ({orders}) => {
   );
 };
 
-export default orders;
+export default Orders;
 
 export const getServerSideProps = async ({req, res}) => {
   const session = await getSession({req});

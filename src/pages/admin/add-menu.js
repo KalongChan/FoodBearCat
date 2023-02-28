@@ -9,7 +9,7 @@ axios.defaults.baseURL = "http://localhost:3000";
 import {toast} from "react-toastify";
 import {useSession} from "next-auth/react";
 
-const addMenu = ({categories}) => {
+const AddMenu = ({categories}) => {
   const {data: session, status} = useSession();
   const router = useRouter();
 
@@ -153,16 +153,43 @@ const addMenu = ({categories}) => {
     );
   }
 };
-export default addMenu;
+export default AddMenu;
 
-export const getStaticProps = async () => {
-  let categories = await axios.get("/api/categories");
-  categories = categories.data;
+// export const getStaticProps = async () => {
+//   let categories = await axios.get("/api/categories");
+//   categories = categories.data;
+
+//   return {
+//     props: {
+//       categories: categories,
+//     },
+//     revalidate: 10000,
+//   };
+// };
+
+export const getServerSideProps = async ({req, params}) => {
+  let categories = null;
+
+  try {
+    categories = await axios.get(`/api/categories/`, {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    });
+    categories = categories.data;
+  } catch (e) {
+    if (e.response) {
+      console.log(e.response.status);
+      console.log(e.response.data.message);
+    } else {
+      console.log(e);
+    }
+  }
 
   return {
     props: {
       categories: categories,
     },
-    revalidate: 10000,
   };
 };

@@ -7,7 +7,7 @@ import CartContainer from "@/UI/CartContainer/CartContainer";
 import {useState} from "react";
 import {Fade} from "react-awesome-reveal";
 
-function checkout() {
+function CheckOut() {
   const initialSteps = [
     {step: "1", text: "Contact Info"},
     {step: "2", text: "Payment"},
@@ -51,4 +51,4 @@ function checkout() {
   );
 }
 
-export default checkout;
+export default CheckOut;

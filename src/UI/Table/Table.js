@@ -12,10 +12,12 @@ function Table({columns, data}) {
   return (
     <table {...getTableProps()}>
       <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+        {headerGroups.map((headerGroup, i) => (
+          <tr {...headerGroup.getHeaderGroupProps()} key={i}>
+            {headerGroup.headers.map((column, j) => (
+              <th {...column.getHeaderProps()} key={j}>
+                {column.render("Header")}
+              </th>
             ))}
           </tr>
         ))}
@@ -24,9 +26,13 @@ function Table({columns, data}) {
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+            <tr {...row.getRowProps()} key={i}>
+              {row.cells.map((cell, j) => {
+                return (
+                  <td {...cell.getCellProps()} key={j}>
+                    {cell.render("Cell")}
+                  </td>
+                );
               })}
             </tr>
           );

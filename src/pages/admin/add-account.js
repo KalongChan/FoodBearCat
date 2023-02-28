@@ -8,7 +8,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {useSession} from "next-auth/react";
 
-const addMenu = () => {
+const AddAccount = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
 
@@ -152,4 +152,4 @@ const addMenu = () => {
     );
   }
 };
-export default addMenu;
+export default AddAccount;

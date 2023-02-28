@@ -163,10 +163,38 @@ const Menus = (props) => {
 
 export default Menus;
 
-export const getStaticProps = async () => {
+// export const getStaticProps = async () => {
+//   let menus = null;
+//   try {
+//     menus = await axios.get("/api/menus");
+//     menus = menus.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
+
+//   return {
+//     props: {
+//       menus,
+//     },
+//     revalidate: 1,
+//   };
+// };
+
+export const getServerSideProps = async ({req, params}) => {
   let menus = null;
+
   try {
-    menus = await axios.get("/api/menus");
+    menus = await axios.get(`/api/menus/`, {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    });
     menus = menus.data;
   } catch (e) {
     if (e.response) {
@@ -179,8 +207,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      menus,
+      menus: menus,
     },
-    revalidate: 1,
   };
 };

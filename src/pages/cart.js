@@ -9,7 +9,7 @@ import {Fade} from "react-awesome-reveal";
 import Image from "next/image";
 import {useSession} from "next-auth/react";
 
-function cart() {
+function Cart() {
   const dispatch = useDispatch();
   const session = useSession();
 
@@ -90,4 +90,4 @@ function cart() {
   );
 }
 
-export default cart;
+export default Cart;
