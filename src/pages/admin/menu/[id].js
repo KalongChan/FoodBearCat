@@ -132,7 +132,7 @@ const Menu = () => {
     return <div>LOADINGGGGGGGGG</div>;
   }
 
-  if (!selectedMenu && !loading) {
+  if (!selectedMenu && !loading && session && session.admin) {
     return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
   }
 
