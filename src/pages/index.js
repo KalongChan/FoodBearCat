@@ -29,6 +29,6 @@ export const getStaticProps = async () => {
       menus,
       categories,
     },
-    revalidate: 10000,
+    revalidate: 10,
   };
 };
