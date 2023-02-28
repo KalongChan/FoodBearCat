@@ -89,11 +89,11 @@ const Menus = (props) => {
   );
 
   let menusWithAction = [];
-  props.menus?.map((menu) => {
+  props.data?.map((menu) => {
     menusWithAction.push({...menu, action: ["Edit", "Delete"]});
   });
 
-  const data = useMemo(() => menusWithAction, [props.menus]);
+  const data = useMemo(() => menusWithAction, [props.data]);
 
   const initialState = {
     pageSize: 10,
@@ -148,7 +148,7 @@ const Menus = (props) => {
                 Add
               </Link>
             </div>
-            {props.menus ? (
+            {props.data ? (
               <Table columns={columns} data={[...data]} />
             ) : (
               <h1>Loading</h1>
@@ -195,7 +195,7 @@ export const getServerSideProps = async ({req, params}) => {
         Cookie: req.headers.cookie,
       },
     });
-    menus = menus.data;
+    data = await menus.data;
   } catch (e) {
     if (e.response) {
       console.log(e.response.status);
@@ -207,7 +207,7 @@ export const getServerSideProps = async ({req, params}) => {
 
   return {
     props: {
-      menus: menus,
+      data: data,
     },
   };
 };
