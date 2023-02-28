@@ -16,6 +16,32 @@ const Menus = (props) => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [menus, setMenus] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      let response = await axios.get(`/api/menus/`, {
+        // withCredentials: true,
+        // headers: {
+        //   Cookie: req.headers.cookie,
+        // },
+      });
+      response = response.data;
+      console.log(response);
+      setMenus(response);
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.status);
+        console.log(e.response.data.message);
+      } else {
+        console.log(e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -89,11 +115,11 @@ const Menus = (props) => {
   );
 
   let menusWithAction = [];
-  props.data?.map((menu) => {
+  menus?.map((menu) => {
     menusWithAction.push({...menu, action: ["Edit", "Delete"]});
   });
 
-  const data = useMemo(() => menusWithAction, [props.data]);
+  const data = useMemo(() => menusWithAction, [menus]);
 
   const initialState = {
     pageSize: 10,
@@ -113,7 +139,6 @@ const Menus = (props) => {
       router.push("/");
       return;
     }
-    console.log(session);
   }, [session]);
 
   if (session && session.admin) {
@@ -149,7 +174,7 @@ const Menus = (props) => {
                 Add
               </Link>
             </div>
-            {props.data ? (
+            {menus ? (
               <Table columns={columns} data={[...data]} />
             ) : (
               <h1>Loading</h1>
@@ -185,29 +210,29 @@ export default Menus;
 //   };
 // };
 
-export const getServerSideProps = async ({req, params}) => {
-  let menus = null;
+// export const getServerSideProps = async ({req, params}) => {
+//   let menus = null;
 
-  try {
-    menus = await axios.get(`/api/menus/`, {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    data = await menus.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
+//   try {
+//     menus = await axios.get(`/api/menus/`, {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     menus = menus.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
 
-  return {
-    props: {
-      data: data,
-    },
-  };
-};
+//   return {
+//     props: {
+//       menus: menus,
+//     },
+//   };
+// };
