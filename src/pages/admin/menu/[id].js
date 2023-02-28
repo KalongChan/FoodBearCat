@@ -128,7 +128,7 @@ const Menu = () => {
     {type: "image", label: "Image URL (400*400)"},
   ];
 
-  if (loading) {
+  if (loading && session && session.admin) {
     return <div>LOADINGGGGGGGGG</div>;
   }
 
