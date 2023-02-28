@@ -2,7 +2,7 @@ import Container from "@/UI/Container/Container";
 import {Formik, Form, Field} from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "http://localhost:3000";
 import Modal from "../../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
@@ -10,12 +10,46 @@ import classes from "../add-menus.module.css";
 import {Fragment, useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 
-const Menu = ({selectedMenu, categories}) => {
+const Menu = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
   const id = router.query.id;
   const [showModal, setShowModal] = useState(false);
   const [currentMenu, setCurrentMenu] = useState(null);
+  const [selectedMenu, setSelectedMenu] = useState();
+  const [categories, setCategories] = useState([]);
+
+  console.log(id);
+
+  const fetchData = async () => {
+    try {
+      let menuRes = await axios.get(`/api/menu/${id}`, {
+        withCredentials: true,
+      });
+      menuRes = menuRes.data;
+      setSelectedMenu(menuRes);
+      console.log(menuRes);
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      let categoriesRes = await axios.get(`/api/categories`);
+      categoriesRes = categoriesRes.data;
+      setCategories(categoriesRes);
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.status);
+        console.log(e.response.data.message);
+      } else {
+        console.log(e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -215,41 +249,41 @@ const Menu = ({selectedMenu, categories}) => {
   }
 };
 
-export const getServerSideProps = async ({req, params}) => {
-  const id = params.id;
-  let menuRes = null;
-  let categoriesRes = null;
+// export const getServerSideProps = async ({req, params}) => {
+//   const id = params.id;
+//   let menuRes = null;
+//   let categoriesRes = null;
 
-  try {
-    menuRes = await axios.get(`/api/menu/${id}`, {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    menuRes = menuRes.data;
-  } catch (e) {
-    console.log(e);
-  }
+//   try {
+//     menuRes = await axios.get(`/api/menu/${id}`, {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     menuRes = menuRes.data;
+//   } catch (e) {
+//     console.log(e);
+//   }
 
-  try {
-    categoriesRes = await axios.get(`/api/categories`);
-    categoriesRes = categoriesRes.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
+//   try {
+//     categoriesRes = await axios.get(`/api/categories`);
+//     categoriesRes = categoriesRes.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
 
-  return {
-    props: {
-      selectedMenu: menuRes,
-      categories: categoriesRes,
-    },
-  };
-};
+//   return {
+//     props: {
+//       selectedMenu: menuRes,
+//       categories: categoriesRes,
+//     },
+//   };
+// };
 
 export default Menu;

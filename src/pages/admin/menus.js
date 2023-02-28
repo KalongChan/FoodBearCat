@@ -21,13 +21,9 @@ const Menus = (props) => {
   const fetchData = async () => {
     try {
       let response = await axios.get(`/api/menus/`, {
-        // withCredentials: true,
-        // headers: {
-        //   Cookie: req.headers.cookie,
-        // },
+        withCredentials: true,
       });
       response = response.data;
-      console.log(response);
       setMenus(response);
     } catch (e) {
       if (e.response) {
