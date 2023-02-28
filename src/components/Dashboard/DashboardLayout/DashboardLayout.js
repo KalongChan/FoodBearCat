@@ -2,11 +2,13 @@ import {Fragment, Suspense} from "react";
 import DashboardHeader from "../DashboardHeader/DashboardHeader";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {useSession} from "next-auth/react";
 
 const Layout = ({children}) => {
+  const {data: session, status} = useSession();
   return (
     <Fragment>
-      <DashboardHeader />
+      {session && <DashboardHeader />}
       <ToastContainer
         position="top-right"
         autoClose={5000}
