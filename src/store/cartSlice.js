@@ -23,7 +23,7 @@ const cartSlice = createSlice({
         (cartItem) => cartItem._id === action.payload._id
       );
 
-      // Add item to cart if not found in cart
+      // Increase found item in cart by 1
       if (index >= 0) {
         let newCart = [...state.items];
         newCart[index] = {
@@ -32,7 +32,7 @@ const cartSlice = createSlice({
         };
         state.items = newCart;
 
-        // Increase found item in cart by 1
+        // Add item to cart if not found in cart
       } else {
         let newItem = {...action.payload};
         state.items = [...state.items, newItem];
