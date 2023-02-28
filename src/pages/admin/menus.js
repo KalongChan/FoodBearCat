@@ -187,7 +187,6 @@ export default Menus;
 
 export const getServerSideProps = async ({req, params}) => {
   let menus = null;
-  let data = null;
 
   try {
     menus = await axios.get(`/api/menus/`, {
