@@ -110,6 +110,7 @@ const Orders = (props) => {
       router.push("/");
       return;
     }
+    console.log(session);
   }, [session]);
 
   if (session && session.admin) {
@@ -145,6 +146,7 @@ const Orders = (props) => {
                 Add
               </Link> */}
             </div>
+            {console.log(props)}
             {props.orders ? (
               <Table columns={columns} data={[...data]} />
             ) : (
@@ -159,10 +161,38 @@ const Orders = (props) => {
 
 export default Orders;
 
-export const getStaticProps = async () => {
+// export const getStaticProps = async () => {
+//   let orders = null;
+//   try {
+//     orders = await axios.get("/api/orders");
+//     orders = orders.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
+
+//   return {
+//     props: {
+//       orders,
+//     },
+//     revalidate: 1,
+//   };
+// };
+
+export const getServerSideProps = async ({req, params}) => {
   let orders = null;
+
   try {
-    orders = await axios.get("/api/orders");
+    orders = await axios.get(`/api/orders/`, {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    });
     orders = orders.data;
   } catch (e) {
     if (e.response) {
@@ -175,8 +205,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      orders,
+      orders: orders,
     },
-    revalidate: 1,
   };
 };
