@@ -57,7 +57,7 @@ const Menus = (props) => {
       toast.error(errorMessage);
     }
     toggleModal();
-    router.push("menus");
+    fetchData();
   };
 
   const columns = useMemo(
