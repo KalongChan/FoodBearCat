@@ -2,7 +2,7 @@ import Link from "next/link";
 import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "http://localhost:3000";
 import {useEffect, useMemo, useState} from "react";
 import TableContainer from "@/UI/TableContainer/TableContainer";
 import Modal from "../../UI/Modal/Modal";
