@@ -5,7 +5,8 @@ import {Provider} from "react-redux";
 import {SessionProvider} from "next-auth/react";
 import "../styles/globals.css";
 import Head from "next/head";
-import {Fragment} from "react";
+import {Fragment, useEffect, useState} from "react";
+import Loading from "@/components/Loading/Loading";
 
 function MyApp({Component, session, pageProps, ...appProps}) {
   const isLayoutNeeded = appProps.router.pathname.startsWith(`/admin`);
@@ -27,6 +28,18 @@ function MyApp({Component, session, pageProps, ...appProps}) {
       currentPath.slice(2);
     return formattedPath;
   };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Fragment>

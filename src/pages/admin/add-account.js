@@ -7,12 +7,10 @@ import classes from "./add-menus.module.css";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {useSession} from "next-auth/react";
-import Loading from "@/components/Loading/Loading";
 
 const AddAccount = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
   let initialValues = {
     username: "",
@@ -46,10 +44,6 @@ const AddAccount = () => {
   };
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
     if (status === "loading") {
       return;
     }
@@ -63,10 +57,6 @@ const AddAccount = () => {
       return;
     }
   }, [session]);
-
-  if (loading && session && session.admin) {
-    return <Loading />;
-  }
 
   if (session && session.admin) {
     return (
