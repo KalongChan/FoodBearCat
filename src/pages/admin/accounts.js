@@ -147,7 +147,7 @@ export const getServerSideProps = async ({req}) => {
   let accounts = null;
 
   try {
-    accounts = await axios.get("/api/accounts", {
+    accounts = await axios.get("/api/accounts/", {
       withCredentials: true,
       headers: {
         Cookie: req.headers.cookie,

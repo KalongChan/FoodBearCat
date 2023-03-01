@@ -118,7 +118,7 @@ const DashboardHeader = () => {
         </div>
       </div>
 
-      <div
+      {/* <div
         className={`${classes["collapsing-header"]} ${
           collaps ? classes["show-collaps-down"] : ""
         } ${!collaps ? classes["show-collaps-up"] : ""}`}
@@ -192,7 +192,7 @@ const DashboardHeader = () => {
             </li>
           )}
         </ul>
-      </div>
+      </div> */}
     </Fragment>
   );
 };

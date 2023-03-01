@@ -1,6 +1,9 @@
 .main-header {
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 80px;
+  width: 100%;
   z-index: 1;
   background-color: #31353d;
   color: #ffffffcc;
@@ -8,6 +11,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 30px;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .logo {
