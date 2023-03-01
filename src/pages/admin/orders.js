@@ -2,7 +2,6 @@ import Link from "next/link";
 import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
 import {Fragment, useEffect, useMemo, useState} from "react";
 import TableContainer from "@/UI/TableContainer/TableContainer";
 
@@ -10,12 +9,38 @@ import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import {useSession} from "next-auth/react";
+import Loading from "@/components/Loading/Loading";
 const Orders = (props) => {
   const {data: session, status} = useSession();
 
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      let response = await axios.get(`/api/orders/`, {
+        withCredentials: true,
+      });
+      response = response.data;
+      setOrders(response);
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.status);
+        console.log(e.response.data.message);
+      } else {
+        console.log(e);
+      }
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -35,7 +60,7 @@ const Orders = (props) => {
       toast.error(errorMessage);
     }
     toggleModal();
-    router.push("orders");
+    fetchData();
   };
 
   const columns = useMemo(
@@ -86,11 +111,11 @@ const Orders = (props) => {
   );
 
   let menusWithAction = [];
-  props.orders?.map((order) => {
+  orders?.map((order) => {
     menusWithAction.push({...order, action: ["Edit", "Delete"]});
   });
 
-  const data = useMemo(() => menusWithAction, [props.orders]);
+  const data = useMemo(() => menusWithAction, [orders]);
 
   const initialState = {
     pageSize: 10,
@@ -110,8 +135,11 @@ const Orders = (props) => {
       router.push("/");
       return;
     }
-    console.log(session);
   }, [session]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (session && session.admin) {
     return (
@@ -147,7 +175,7 @@ const Orders = (props) => {
               </Link> */}
             </div>
             {console.log(props)}
-            {props.orders ? (
+            {orders ? (
               <Table columns={columns} data={[...data]} />
             ) : (
               <h1>Loading</h1>

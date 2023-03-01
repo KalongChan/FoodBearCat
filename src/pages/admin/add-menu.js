@@ -5,7 +5,6 @@ import {Fragment, useEffect} from "react";
 import * as Yup from "yup";
 import classes from "./add-menus.module.css";
 import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3000";
 import {toast} from "react-toastify";
 import {useSession} from "next-auth/react";
 
@@ -73,81 +72,83 @@ const AddMenu = ({categories}) => {
   if (session && session.admin) {
     return (
       <Container>
-        <h2>Contact information</h2>
-        <div className={classes.form}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={menuSchema}
-            onSubmit={submitHandler}
-          >
-            {({errors, touched}) => (
-              <Form>
-                {menuForm.map((item, index) =>
-                  item.type === "category" ? (
-                    <Fragment key={index + "_category"}>
-                      <div
-                        className={`${classes["form-item"]}
+        <div className={classes["form-wrapper"]}>
+          <h2>Add Menu</h2>
+          <div className={classes.form}>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={menuSchema}
+              onSubmit={submitHandler}
+            >
+              {({errors, touched}) => (
+                <Form>
+                  {menuForm.map((item, index) =>
+                    item.type === "category" ? (
+                      <Fragment key={index + "_category"}>
+                        <div
+                          className={`${classes["form-item"]}
                ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                      >
-                        <label htmlFor={item.type}>{item.label}</label>
-
-                        <Field
-                          as="select"
-                          className={classes.input}
-                          name={item.type}
-                          id={item.type}
                         >
-                          <option value="">Select a Category</option>
-                          {categories.map((category) => (
-                            <option value={category.name} key={category.name}>
-                              {category.name}{" "}
-                            </option>
-                          ))}
-                        </Field>
-                        {errors[item.type] && touched[item.type] ? (
-                          <div
-                            className={classes["error-message"]}
+                          <label htmlFor={item.type}>{item.label}</label>
+
+                          <Field
+                            as="select"
+                            className={classes.input}
+                            name={item.type}
                             id={item.type}
                           >
-                            {errors[item.type]}
-                          </div>
-                        ) : null}
-                      </div>
-                    </Fragment>
-                  ) : (
-                    <Fragment key={index + "_others"}>
-                      <div
-                        className={`${classes["form-item"]}
+                            <option value="">Select a Category</option>
+                            {categories.map((category) => (
+                              <option value={category.name} key={category.name}>
+                                {category.name}{" "}
+                              </option>
+                            ))}
+                          </Field>
+                          {errors[item.type] && touched[item.type] ? (
+                            <div
+                              className={classes["error-message"]}
+                              id={item.type}
+                            >
+                              {errors[item.type]}
+                            </div>
+                          ) : null}
+                        </div>
+                      </Fragment>
+                    ) : (
+                      <Fragment key={index + "_others"}>
+                        <div
+                          className={`${classes["form-item"]}
                ${errors[item.type] && touched[item.type] ? classes.error : ""}`}
-                      >
-                        <label htmlFor={item.type}>{item.label}</label>
+                        >
+                          <label htmlFor={item.type}>{item.label}</label>
 
-                        <Field
-                          className={classes.input}
-                          name={item.type}
-                          id={item.type}
-                        />
-                        {errors[item.type] && touched[item.type] ? (
-                          <div className={classes["error-message"]}>
-                            {errors[item.type]}
-                          </div>
-                        ) : null}
-                      </div>
-                    </Fragment>
-                  )
-                )}
+                          <Field
+                            className={classes.input}
+                            name={item.type}
+                            id={item.type}
+                          />
+                          {errors[item.type] && touched[item.type] ? (
+                            <div className={classes["error-message"]}>
+                              {errors[item.type]}
+                            </div>
+                          ) : null}
+                        </div>
+                      </Fragment>
+                    )
+                  )}
 
-                <div className={classes.btns}>
-                  <div className={classes.back} onClick={() => router.back()}>
-                    &lt; Return To Menu
+                  <div className={classes.btns}>
+                    <div className={classes.back} onClick={() => router.back()}>
+                      &lt; Return To Menu
+                    </div>
+                    <button type="submit" className={classes["edit-btn"]}>
+                      Submit
+                    </button>
                   </div>
-                  <button type="submit" className={classes["edit-btn"]}>
-                    Submit
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       </Container>
     );

@@ -62,7 +62,7 @@ const AddAccount = () => {
     return (
       <Container>
         <div className={classes["form-wrapper"]}>
-          <h2>Contact information</h2>
+          <h2>Add Account</h2>
           <div className={classes.form}>
             <Formik
               initialValues={initialValues}

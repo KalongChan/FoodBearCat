@@ -2,7 +2,6 @@ import Container from "@/UI/Container/Container";
 import {Formik, Form, Field} from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3000";
 import Modal from "../../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";

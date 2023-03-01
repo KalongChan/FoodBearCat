@@ -2,19 +2,44 @@ import Link from "next/link";
 import classes from "./menus.module.css";
 import Table from "../../UI/Table/Table";
 import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3000";
 import {useEffect, useMemo, useState} from "react";
 import TableContainer from "@/UI/TableContainer/TableContainer";
 import Modal from "../../UI/Modal/Modal";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import {useSession} from "next-auth/react";
+import Loading from "@/components/Loading/Loading";
 
 const Accounts = (props) => {
   const {data: session, status} = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      let response = await axios.get(`/api/accounts`, {
+        withCredentials: true,
+      });
+      response = response.data;
+      setAccounts(response);
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.status);
+        console.log(e.response.data.message);
+      } else {
+        console.log(e);
+      }
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -34,7 +59,7 @@ const Accounts = (props) => {
       toast.error(errorMessage);
     }
     toggleModal();
-    router.push("accounts");
+    fetchData();
   };
 
   const columns = useMemo(
@@ -81,11 +106,11 @@ const Accounts = (props) => {
   );
 
   let menusWithAction = [];
-  props.accounts?.map((account) => {
+  accounts?.map((account) => {
     menusWithAction.push({...account, action: ["Edit", "Delete"]});
   });
 
-  const data = useMemo(() => menusWithAction, [props.accounts]);
+  const data = useMemo(() => menusWithAction, [accounts]);
 
   useEffect(() => {
     if (status === "loading") {
@@ -101,6 +126,10 @@ const Accounts = (props) => {
       return;
     }
   }, [session]);
+
+  if (loading && session && session.admin) {
+    return <Loading />;
+  }
 
   if (session && session.admin) {
     return (
@@ -143,28 +172,28 @@ const Accounts = (props) => {
 
 export default Accounts;
 
-export const getServerSideProps = async ({req}) => {
-  let accounts = null;
+// export const getServerSideProps = async ({req}) => {
+//   let accounts = null;
 
-  try {
-    accounts = await axios.get("/api/accounts/", {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    accounts = accounts.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
-  return {
-    props: {
-      accounts: accounts,
-    },
-  };
-};
+//   try {
+//     accounts = await axios.get("/api/accounts/", {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     accounts = accounts.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
+//   return {
+//     props: {
+//       accounts: accounts,
+//     },
+//   };
+// };
