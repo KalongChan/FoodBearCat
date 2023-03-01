@@ -20,6 +20,10 @@ const Menu = ({menus, categories}) => {
     setFilteredMenu(menus.filter((menu) => menu.category === category));
   };
 
+  if (!menus || !categories) {
+    return <div>123</div>;
+  }
+
   return (
     <Fragment>
       <div className={classes.menu} id="menu">

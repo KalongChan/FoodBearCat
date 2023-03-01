@@ -1,5 +1,7 @@
 import CustomerReviews from "@/components/CustomerReviews/CustomerReviews";
-import {Fragment} from "react";
+import Loading from "@/components/Loading/Loading";
+import {useRouter} from "next/router";
+import {Fragment, useEffect, useState} from "react";
 
 import Banner from "../components/Banner/Banner";
 import Info from "../components/Info/Info";
@@ -7,6 +9,19 @@ import Menu from "../components/Menu/Menu";
 import {connectToDatabase} from "../util/mongodb";
 
 export default function Home(props) {
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    setLoading;
+    // router.isReady && setLoading(false);
+  }, []);
+
+  console.log(router.isReady);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <Fragment>
       <Banner />

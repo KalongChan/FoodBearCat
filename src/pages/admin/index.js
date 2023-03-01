@@ -9,13 +9,3 @@ const WebPanel = () => {
   return <div></div>;
 };
 export default WebPanel;
-
-// export const getStaticProps = () => {
-//   return {
-//     redirect: {
-//       destination: "/admin/menus",
-//       permanent: true,
-//       fallback: true,
-//     },
-//   };
-// };

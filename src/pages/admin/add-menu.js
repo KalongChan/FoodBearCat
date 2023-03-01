@@ -1,16 +1,41 @@
 import Container from "@/UI/Container/Container";
 import {Formik, Form, Field} from "formik";
 import {useRouter} from "next/router";
-import {Fragment, useEffect} from "react";
+import {Fragment, useEffect, useState} from "react";
 import * as Yup from "yup";
 import classes from "./add-menus.module.css";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {useSession} from "next-auth/react";
+import Loading from "@/components/Loading/Loading";
 
-const AddMenu = ({categories}) => {
+const AddMenu = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+
+    try {
+      let categoriesRes = await axios.get(`/api/categories`);
+      categoriesRes = categoriesRes.data;
+      setCategories(categoriesRes);
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.status);
+        console.log(e.response.data.message);
+      } else {
+        console.log(e);
+      }
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   let initialValues = {
     name: "",
@@ -69,6 +94,10 @@ const AddMenu = ({categories}) => {
     }
   }, [session]);
 
+  if (loading && session && session.admin) {
+    return <Loading />;
+  }
+
   if (session && session.admin) {
     return (
       <Container>
@@ -98,7 +127,7 @@ const AddMenu = ({categories}) => {
                             id={item.type}
                           >
                             <option value="">Select a Category</option>
-                            {categories.map((category) => (
+                            {categories?.map((category) => (
                               <option value={category.name} key={category.name}>
                                 {category.name}{" "}
                               </option>
@@ -168,29 +197,29 @@ export default AddMenu;
 //   };
 // };
 
-export const getServerSideProps = async ({req, params}) => {
-  let categories = null;
+// export const getServerSideProps = async ({req, params}) => {
+//   let categories = null;
 
-  try {
-    categories = await axios.get(`/api/categories/`, {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    categories = categories.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
+//   try {
+//     categories = await axios.get(`/api/categories/`, {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     categories = categories.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
 
-  return {
-    props: {
-      categories: categories,
-    },
-  };
-};
+//   return {
+//     props: {
+//       categories: categories,
+//     },
+//   };
+// };
