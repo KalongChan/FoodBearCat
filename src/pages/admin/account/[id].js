@@ -15,17 +15,18 @@ const Account = () => {
   const router = useRouter();
   const id = router.query.id;
   const [showModal, setShowModal] = useState(false);
-  const [account, setAccount] = useState();
+  const [currentAccount, setCurrentAccount] = useState();
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      let account = await axios.get(`/api/account/${id}`, {
+      let accountRes = await axios.get(`/api/account/${id}`, {
         withCredentials: true,
       });
-      account = account.data;
-      setAccount(account);
+      accountRes = accountRes.data;
+      setCurrentAccount(accountRes);
+      console.log(accountRes);
     } catch (e) {
       console.log(e);
     }
@@ -49,7 +50,7 @@ const Account = () => {
 
   const deleteAccount = async () => {
     try {
-      const response = await axios.delete(`/api/account/${account._id}`);
+      const response = await axios.delete(`/api/account/${currentAccount._id}`);
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
@@ -61,9 +62,10 @@ const Account = () => {
 
   const submitHandler = async (values) => {
     try {
-      const response = await axios.put(`/api/account/${account._id}`, {
+      const response = await axios.put(`/api/account/${currentAccount._id}`, {
         ...values,
       });
+      console.log(values);
       router.push("/admin/accounts");
       toast.success(response.data.message);
     } catch (e) {
@@ -89,13 +91,13 @@ const Account = () => {
   }, [session]);
 
   let initialValues = {
-    account: account?.username,
+    username: currentAccount?.username,
     // password: "",
-    type: account?.type,
+    type: currentAccount?.type,
   };
 
   const menuSchema = Yup.object().shape({
-    account: Yup.string().required("Required"),
+    username: Yup.string().required("Required"),
     // password: Yup.string().required("Required"),
     type: Yup.string().required("Required"),
   });
@@ -110,7 +112,7 @@ const Account = () => {
     return <Loading />;
   }
 
-  if (!account && !loading && session && session.admin) {
+  if (!currentAccount && !loading && session && session.admin) {
     return (
       <h1 style={{textAlign: "center", marginTop: "80px"}}>
         404 No Item Found{" "}
@@ -124,7 +126,8 @@ const Account = () => {
         {showModal && (
           <Modal showModal={showModal} setShowModal={setShowModal}>
             <h2>
-              Are you sure want to delete <span>{`${account.username}`}</span> ?
+              Are you sure want to delete{" "}
+              <span>{`${currentAccount.username}`}</span> ?
             </h2>
             <div style={{whiteSpace: "nowrap"}}>
               <button
@@ -147,7 +150,10 @@ const Account = () => {
             <div className={classes["form-title"]}>Edit Account</div>
             <button
               onClick={() =>
-                openModal({id: account._id, account: account.username})
+                openModal({
+                  id: currentAccount._id,
+                  username: currentAccount.username,
+                })
               }
               className={classes["delete-btn"]}
             >
@@ -164,18 +170,18 @@ const Account = () => {
                 <Form>
                   <div
                     className={`${classes["form-item"]}
-               ${errors.account && touched.account ? classes.error : ""}`}
+               ${errors.username && touched.username ? classes.error : ""}`}
                   >
-                    <label htmlFor="account">User Name</label>
+                    <label htmlFor="username">User Name</label>
 
                     <Field
                       className={classes.input}
-                      name="account"
-                      id="account"
+                      name="username"
+                      id="username"
                     />
-                    {errors.account && touched.account ? (
+                    {errors.username && touched.username ? (
                       <div className={classes["error-message"]}>
-                        {errors.account}
+                        {errors.username}
                       </div>
                     ) : null}
                   </div>

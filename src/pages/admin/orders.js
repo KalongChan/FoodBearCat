@@ -10,7 +10,7 @@ import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import {useSession} from "next-auth/react";
 import Loading from "@/components/Loading/Loading";
-const Orders = (props) => {
+const Orders = () => {
   const {data: session, status} = useSession();
 
   const router = useRouter();
@@ -174,7 +174,6 @@ const Orders = (props) => {
                 Add
               </Link> */}
             </div>
-            {console.log(props)}
             {orders ? (
               <Table columns={columns} data={[...data]} />
             ) : (
@@ -211,29 +210,29 @@ export default Orders;
 //   };
 // };
 
-export const getServerSideProps = async ({req, params}) => {
-  let orders = null;
+// export const getServerSideProps = async ({req, params}) => {
+//   let orders = null;
 
-  try {
-    orders = await axios.get(`/api/orders/`, {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    orders = orders.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
+//   try {
+//     orders = await axios.get(`/api/orders/`, {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     orders = orders.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
 
-  return {
-    props: {
-      orders: orders,
-    },
-  };
-};
+//   return {
+//     props: {
+//       orders: orders,
+//     },
+//   };
+// };

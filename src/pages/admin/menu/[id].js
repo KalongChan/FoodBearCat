@@ -15,8 +15,7 @@ const Menu = () => {
   const router = useRouter();
   const id = router.query.id;
   const [showModal, setShowModal] = useState(false);
-  const [currentMenu, setCurrentMenu] = useState(null);
-  const [selectedMenu, setSelectedMenu] = useState();
+  const [currentMenu, setCurrentMenu] = useState();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +26,7 @@ const Menu = () => {
         withCredentials: true,
       });
       menuRes = menuRes.data;
-      setSelectedMenu(menuRes);
+      setCurrentMenu(menuRes);
     } catch (e) {
       console.log(e);
     }
@@ -48,21 +47,23 @@ const Menu = () => {
   };
 
   useEffect(() => {
+    if (!id) {
+      return;
+    }
     fetchData();
-  }, []);
+  }, [id]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const openModal = (menu) => {
-    setCurrentMenu(menu);
+  const openModal = () => {
     toggleModal();
   };
 
   const deleteMenu = async () => {
     try {
-      const response = await axios.delete(`/api/menu/${currentMenu.id}`);
+      const response = await axios.delete(`/api/menu/${currentMenu._id}`);
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
@@ -75,6 +76,7 @@ const Menu = () => {
   const editHandler = async (values) => {
     try {
       const response = await axios.put(`/api/menu/${id}`, {...values});
+      router.push("/admin/menus");
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
@@ -98,11 +100,11 @@ const Menu = () => {
   }, [session]);
 
   let initialValues = {
-    name: selectedMenu?.name,
-    category: selectedMenu?.category,
-    description: selectedMenu?.description,
-    price: selectedMenu?.price,
-    image: selectedMenu?.image,
+    name: currentMenu?.name,
+    category: currentMenu?.category,
+    description: currentMenu?.description,
+    price: currentMenu?.price,
+    image: currentMenu?.image,
   };
 
   const menuSchema = Yup.object().shape({
@@ -132,7 +134,7 @@ const Menu = () => {
     return <Loading />;
   }
 
-  if (!selectedMenu && !loading && session && session.admin) {
+  if (!currentMenu && !loading && session && session.admin) {
     return (
       <h1 style={{textAlign: "center", marginTop: "80px"}}>
         404 No Item Found{" "}
@@ -168,12 +170,7 @@ const Menu = () => {
           <div className={classes["form-header"]}>
             <div className={classes["form-title"]}>Edit Menu</div>
             <button
-              onClick={() =>
-                openModal({
-                  id: selectedMenu._id,
-                  name: selectedMenu.name,
-                })
-              }
+              onClick={() => openModal({})}
               className={classes["delete-btn"]}
             >
               Delete

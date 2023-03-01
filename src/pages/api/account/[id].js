@@ -27,7 +27,7 @@ const handler = async (req, res) => {
               {_id: new ObjectId(req.query.id)},
               {
                 $set: {
-                  account: data.account,
+                  username: data.username,
                   //   password: data.password,
                   type: data.type,
                 },
@@ -43,10 +43,10 @@ const handler = async (req, res) => {
           const checkAccountDuplicate =
             (await db
               .collection("accounts")
-              .find({account: `${data.account}`})
+              .find({username: `${data.username}`})
               .count()) !== 0;
 
-          if (currentAccount.account === data.account) {
+          if (currentAccount.username === data.username) {
             return updateAccount();
           }
 

@@ -10,24 +10,46 @@ import {useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 import Loading from "@/components/Loading/Loading";
 
-const Orders = ({order}) => {
+const Orders = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
+  const id = router.query.id;
   const [showModal, setShowModal] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      let orderRes = await axios.get(`/api/order/${id}`, {
+        withCredentials: true,
+      });
+      orderRes = orderRes.data;
+      setCurrentOrder(orderRes);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    fetchData();
+  }, [id]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const openModal = (order) => {
-    setCurrentOrder(order);
+  const openModal = () => {
     toggleModal();
   };
 
   const deleteOrder = async () => {
     try {
-      const response = await axios.delete(`/api/order/${currentOrder.id}`);
+      const response = await axios.delete(`/api/order/${currentOrder._id}`);
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
@@ -39,9 +61,15 @@ const Orders = ({order}) => {
 
   const submitHandler = async (values) => {
     try {
-      const response = await axios.put(`/api/order/${order._id}`, {
-        ...values,
-      });
+      const response = await axios.put(
+        `/api/order/${currentOrder._id}`,
+        {
+          ...values,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       router.push("/admin/orders");
       toast.success(response.data.message);
     } catch (e) {
@@ -67,14 +95,14 @@ const Orders = ({order}) => {
   }, [session]);
 
   let initialValues = {
-    status: order.status,
+    status: currentOrder?.status,
   };
 
   if (loading && session && session.admin) {
     return <Loading />;
   }
 
-  if (!order && !loading && session && session.admin) {
+  if (!currentOrder && !loading && session && session.admin) {
     return (
       <h1 style={{textAlign: "center", marginTop: "80px"}}>
         404 No Item Found{" "}
@@ -95,7 +123,7 @@ const Orders = ({order}) => {
           <Modal showModal={showModal} setShowModal={setShowModal}>
             <h2>
               Are you sure want to delete order{" "}
-              <span>{`${currentOrder.id}`}</span> ?
+              <span>{`${currentOrder._id}`}</span> ?
             </h2>
             <div style={{whiteSpace: "nowrap"}}>
               <button
@@ -117,7 +145,7 @@ const Orders = ({order}) => {
           <div className={classes["form-header"]}>
             <div className={classes["form-title"]}>Edit Order</div>
             <button
-              onClick={() => openModal({id: order._id})}
+              onClick={() => openModal()}
               className={classes["delete-btn"]}
             >
               Delete
@@ -180,30 +208,30 @@ const Orders = ({order}) => {
 };
 export default Orders;
 
-export const getServerSideProps = async ({req, params}) => {
-  const id = params.id;
-  let order = null;
+// export const getServerSideProps = async ({req, params}) => {
+//   const id = params.id;
+//   let order = null;
 
-  try {
-    order = await axios.get(`/api/order/${id}`, {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    order = order.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
+//   try {
+//     order = await axios.get(`/api/order/${id}`, {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     order = order.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
 
-  return {
-    props: {
-      order: order,
-    },
-  };
-};
+//   return {
+//     props: {
+//       order: order,
+//     },
+//   };
+// };
