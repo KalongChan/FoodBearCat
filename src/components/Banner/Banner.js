@@ -34,10 +34,11 @@ const Banner = () => {
           <div className={classes["hero-image"]}>
             <Slide direction>
               <Image
+                className={classes.image}
                 src="/img/delivery_jitensya.png"
                 alt=""
-                width={400}
-                height={400}
+                width={350}
+                height={350}
               ></Image>
             </Slide>
           </div>

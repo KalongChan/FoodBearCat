@@ -43,7 +43,10 @@ function Cart() {
           <CartContainer>
             <div className={classes["cart-title"]}>
               <h2>Shopping Cart</h2>
-              <button className={classes.button} onClick={removeAllHandler}>
+              <button
+                className={classes["delete-button"]}
+                onClick={removeAllHandler}
+              >
                 Remove All
               </button>
             </div>

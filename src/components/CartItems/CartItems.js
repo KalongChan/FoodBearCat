@@ -47,7 +47,13 @@ const CartItems = ({
     <div className={`${classes.items} ${index % 2 === 0 ? classes.even : ""}`}>
       <div className={classes.left}>
         <div>
-          <Image src={image} alt="" height={150} width={150}></Image>
+          <Image
+            src={image}
+            className={classes.image}
+            alt=""
+            height={150}
+            width={150}
+          ></Image>
         </div>
         <div className={classes.info}>
           <h3 className={classes.name}>{name}</h3>

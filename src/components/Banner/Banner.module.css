@@ -5,12 +5,21 @@
   flex-wrap: wrap;
 }
 
+.hero-title {
+  width: 50%;
+}
+
 .hero-title h2 {
   font-size: 2.5rem;
 }
 
 .hero-title span {
   color: red;
+}
+
+.image {
+  width: 300px !important;
+  height: 300px !important;
 }
 
 .main-button,
@@ -24,6 +33,7 @@
   font-size: 1rem;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  white-space: nowrap;
 }
 
 .main-button {
@@ -35,14 +45,14 @@
   color: #ab3c2a;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 768px) {
   .hero-content {
     justify-content: center;
     text-align: center;
   }
-}
-
-@media (max-width: 1280px) {
+  .hero-title {
+    width: 100%;
+  }
   .hero-button {
     display: flex;
     justify-content: center;
