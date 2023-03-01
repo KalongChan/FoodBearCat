@@ -12,8 +12,7 @@ export default function Home(props) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   useEffect(() => {
-    setLoading;
-    // router.isReady && setLoading(false);
+    router.isReady && setLoading(false);
   }, []);
 
   console.log(router.isReady);
