@@ -8,25 +8,48 @@ import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
 import {useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
+import Loading from "@/components/Loading/Loading";
 
-const AddAccount = ({account}) => {
+const Account = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
+  const id = router.query.id;
   const [showModal, setShowModal] = useState(false);
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const [account, setAccount] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      let account = await axios.get(`/api/account/${id}`, {
+        withCredentials: true,
+      });
+      account = account.data;
+      setAccount(account);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    fetchData();
+  }, [id]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const openModal = (account) => {
-    setCurrentAccount(account);
+  const openModal = () => {
     toggleModal();
   };
 
   const deleteAccount = async () => {
     try {
-      const response = await axios.delete(`/api/account/${currentAccount.id}`);
+      const response = await axios.delete(`/api/account/${account._id}`);
       toast.success(response.data.message);
     } catch (e) {
       const errorMessage = `(${e.request.status}) ${e.response.data.message}`;
@@ -71,10 +94,6 @@ const AddAccount = ({account}) => {
     type: account?.type,
   };
 
-  if (!account) {
-    return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
-  }
-
   const menuSchema = Yup.object().shape({
     account: Yup.string().required("Required"),
     // password: Yup.string().required("Required"),
@@ -87,14 +106,25 @@ const AddAccount = ({account}) => {
     {type: "type", label: "User Type"},
   ];
 
+  if (loading && session && session.admin) {
+    return <Loading />;
+  }
+
+  if (!account && !loading && session && session.admin) {
+    return (
+      <h1 style={{textAlign: "center", marginTop: "80px"}}>
+        404 No Item Found{" "}
+      </h1>
+    );
+  }
+
   if (session && session.admin) {
     return (
       <Container>
         {showModal && (
           <Modal showModal={showModal} setShowModal={setShowModal}>
             <h2>
-              Are you sure want to delete{" "}
-              <span>{`${currentAccount.account}`}</span> ?
+              Are you sure want to delete <span>{`${account.username}`}</span> ?
             </h2>
             <div style={{whiteSpace: "nowrap"}}>
               <button
@@ -194,32 +224,32 @@ const AddAccount = ({account}) => {
     );
   }
 };
-export default AddAccount;
+export default Account;
 
-export const getServerSideProps = async ({req, params}) => {
-  const id = params.id;
-  let account = null;
+// export const getServerSideProps = async ({req, params}) => {
+//   const id = params.id;
+//   let account = null;
 
-  try {
-    account = await axios.get(`/api/account/${id}`, {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie,
-      },
-    });
-    account = account.data;
-  } catch (e) {
-    if (e.response) {
-      console.log(e.response.status);
-      console.log(e.response.data.message);
-    } else {
-      console.log(e);
-    }
-  }
+//   try {
+//     account = await axios.get(`/api/account/${id}`, {
+//       withCredentials: true,
+//       headers: {
+//         Cookie: req.headers.cookie,
+//       },
+//     });
+//     account = account.data;
+//   } catch (e) {
+//     if (e.response) {
+//       console.log(e.response.status);
+//       console.log(e.response.data.message);
+//     } else {
+//       console.log(e);
+//     }
+//   }
 
-  return {
-    props: {
-      account: account,
-    },
-  };
-};
+//   return {
+//     props: {
+//       account: account,
+//     },
+//   };
+// };

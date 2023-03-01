@@ -8,6 +8,7 @@ import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
 import {Fragment, useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
+import Loading from "@/components/Loading/Loading";
 
 const Menu = () => {
   const {data: session, status} = useSession();
@@ -20,13 +21,13 @@ const Menu = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       let menuRes = await axios.get(`/api/menu/${id}`, {
         withCredentials: true,
       });
       menuRes = menuRes.data;
       setSelectedMenu(menuRes);
-      console.log(menuRes);
     } catch (e) {
       console.log(e);
     }
@@ -128,11 +129,15 @@ const Menu = () => {
   ];
 
   if (loading && session && session.admin) {
-    return <div>LOADINGGGGGGGGG</div>;
+    return <Loading />;
   }
 
   if (!selectedMenu && !loading && session && session.admin) {
-    return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
+    return (
+      <h1 style={{textAlign: "center", marginTop: "80px"}}>
+        404 No Item Found{" "}
+      </h1>
+    );
   }
 
   if (session && session.admin) {

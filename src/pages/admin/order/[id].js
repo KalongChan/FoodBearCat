@@ -8,6 +8,7 @@ import {useRouter} from "next/router";
 import classes from "../add-menus.module.css";
 import {useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
+import Loading from "@/components/Loading/Loading";
 
 const Orders = ({order}) => {
   const {data: session, status} = useSession();
@@ -69,8 +70,16 @@ const Orders = ({order}) => {
     status: order.status,
   };
 
-  if (!order) {
-    return <h1 style={{textAlign: "center"}}>404 No Item Found </h1>;
+  if (loading && session && session.admin) {
+    return <Loading />;
+  }
+
+  if (!order && !loading && session && session.admin) {
+    return (
+      <h1 style={{textAlign: "center", marginTop: "80px"}}>
+        404 No Item Found{" "}
+      </h1>
+    );
   }
 
   const orderSchema = Yup.object().shape({

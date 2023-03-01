@@ -137,7 +137,7 @@ const Orders = (props) => {
     }
   }, [session]);
 
-  if (loading) {
+  if (loading && session && session.admin) {
     return <Loading />;
   }
 
