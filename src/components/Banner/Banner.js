@@ -34,7 +34,6 @@ const Banner = () => {
           <div className={classes["hero-image"]}>
             <Slide direction>
               <Image
-                className={classes.image}
                 src="/img/delivery_jitensya.png"
                 alt=""
                 width={350}
