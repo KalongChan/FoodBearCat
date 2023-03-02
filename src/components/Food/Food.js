@@ -31,8 +31,8 @@ const Food = ({_id, name, category, description, price, image}) => {
   };
 
   return (
-    <Card key={_id}>
-      <Fade>
+    <Fade>
+      <Card key={_id}>
         <div className={classes["menu-category"]}>{category}</div>
 
         <div className={classes["image-wrapper"]}>
@@ -56,8 +56,8 @@ const Food = ({_id, name, category, description, price, image}) => {
         >
           Add to Cart
         </button>
-      </Fade>
-    </Card>
+      </Card>
+    </Fade>
   );
 };
 export default Food;

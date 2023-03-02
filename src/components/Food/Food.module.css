@@ -50,3 +50,10 @@
     width: 100% !important;
   }
 }
+
+@media (max-width: 768px) {
+  .image {
+    min-height: 275px !important;
+    min-width: 275px !important;
+  }
+}
