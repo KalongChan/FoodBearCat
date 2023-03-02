@@ -1,7 +1,6 @@
 import classes from "./Food.module.css";
 import Image from "next/image";
 import Card from "../../UI/Card/Card";
-// import {Fade} from "react-awesome-reveal";
 import Fade from "react-reveal/Fade";
 
 import {useDispatch} from "react-redux";

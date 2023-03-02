@@ -1,8 +1,7 @@
 import OrdersItems from "../components/OrdersItems/OrdersItems";
 import classes from "../styles/pagesStyles/cart.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
-import Link from "next/link";
-import {Fade} from "react-awesome-reveal";
+import Fade from "react-reveal/Fade";
 import Image from "next/image";
 import {connectToDatabase} from "../util/mongodb";
 import {getSession, useSession} from "next-auth/react";

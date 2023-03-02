@@ -1,5 +1,5 @@
 import About from "@/components/About/About";
-import {Fade} from "react-awesome-reveal";
+import Fade from "react-reveal/Fade";
 
 function about() {
   return (

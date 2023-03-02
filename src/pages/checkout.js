@@ -5,7 +5,7 @@ import ProgressBar from "@/components/ProgressBar/ProgressBar";
 import classes from "@/styles/pagesStyles/chekoutPage.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
 import {useState} from "react";
-import {Fade} from "react-reveal";
+import Fade from "react-reveal/Fade";
 
 function CheckOut() {
   const initialSteps = [

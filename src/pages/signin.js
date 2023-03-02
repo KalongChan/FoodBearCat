@@ -3,8 +3,8 @@ import Register from "@/components/Register/Register";
 import axios from "axios";
 import {getCsrfToken, signIn} from "next-auth/react";
 import {useRouter} from "next/router";
-import {useState} from "react";
-import {Fade} from "react-awesome-reveal";
+import {Fragment, useState} from "react";
+import Fade from "react-reveal/Fade";
 
 export default function SignIn() {
   const router = useRouter();
@@ -52,22 +52,26 @@ export default function SignIn() {
   };
 
   return (
-    <Fade>
-      {!register && (
-        <Login
-          loginHandler={loginHandler}
-          registerMode={registerMode}
-          loginError={loginError}
-        />
-      )}
-      {register && (
-        <Register
-          registerHandler={registerHandler}
-          registerMode={registerMode}
-          registerError={registerError}
-        />
-      )}
-    </Fade>
+    <Fragment>
+      <Fade>
+        {!register && (
+          <Login
+            loginHandler={loginHandler}
+            registerMode={registerMode}
+            loginError={loginError}
+          />
+        )}
+      </Fade>
+      <Fade>
+        {register && (
+          <Register
+            registerHandler={registerHandler}
+            registerMode={registerMode}
+            registerError={registerError}
+          />
+        )}
+      </Fade>
+    </Fragment>
   );
 }
 
