@@ -118,9 +118,15 @@
 
 @media (max-width: 768px) {
   .image {
-    width: 150px !important;
-    height: 150px !important;
-    position: relative !important;
+    width: 125px !important;
+    height: 125px !important;
+  }
+  .item-name {
+    font-size: 16px;
+    min-height: 70px;
+    margin: 0;
+    margin-bottom: 37px;
+    /* 70+18+37=125 */
   }
 }
 

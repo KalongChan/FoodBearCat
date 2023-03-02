@@ -50,7 +50,6 @@ const CartItems = ({index, id, orderTime, items, totalAmount, status}) => {
                 alt=""
                 width="250"
                 height="250"
-                responsive
                 className={classes.image}
               ></Image>
             </div>
