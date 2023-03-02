@@ -1,4 +1,4 @@
-import {Fragment, Suspense} from "react";
+import {Fragment} from "react";
 import DashboardHeader from "../DashboardHeader/DashboardHeader";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

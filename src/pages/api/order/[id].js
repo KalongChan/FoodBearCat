@@ -25,11 +25,6 @@ const handler = async (req, res) => {
             {_id: new ObjectId(req.query.id)},
             {
               $set: {
-                // name: data.name,
-                // category: data.category,
-                // description: data.description,
-                // price: data.price,
-                // image: data.image,
                 ...data,
               },
             }

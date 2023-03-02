@@ -1,6 +1,6 @@
 import classes from "./Header.module.css";
 import {HiOutlineShoppingCart} from "react-icons/hi";
-import {Fragment, useCallback, useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
@@ -61,7 +61,7 @@ const Header = () => {
               <li
                 className={`${
                   currentPath === "/admin" ? classes["active-link"] : ""
-                }`}
+                } ${classes["long-header"]}`}
                 onClick={() => {
                   router.push("/admin");
                 }}
@@ -148,7 +148,7 @@ const Header = () => {
             <li
               className={`${
                 currentPath === "/admin" ? classes["active-link"] : ""
-              }`}
+              } ${classes["long-header"]}`}
               onClick={() => {
                 router.push("/admin");
               }}

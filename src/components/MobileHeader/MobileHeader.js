@@ -180,7 +180,6 @@ const MobileHeader = () => {
               <li
                 onClick={() => {
                   signOut();
-                  sideBarHandler();
                 }}
               >
                 <span className={classes["side-bar-icon"]}>

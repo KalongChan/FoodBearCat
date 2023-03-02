@@ -11,30 +11,3 @@
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
-/* @media (max-width: 768px) {
-  .card {
-    width: 100%;
-    max-width: 300px;
-    height: 400px;
-  }
-} */
-
-/* @media (min-width: 1024px) {
-  .card {
-    width: 30%;
-    height: 425px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .card {
-    height: 480px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .card {
-    height: 500px;
-  }
-} */

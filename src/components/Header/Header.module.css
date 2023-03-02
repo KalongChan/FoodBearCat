@@ -37,6 +37,10 @@
   color: #fff;
 }
 
+.long-header {
+  min-width: 90px !important;
+}
+
 .cart {
   position: relative;
   font-size: 32px !important;

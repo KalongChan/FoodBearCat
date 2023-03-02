@@ -231,31 +231,3 @@ const Account = () => {
   }
 };
 export default Account;
-
-// export const getServerSideProps = async ({req, params}) => {
-//   const id = params.id;
-//   let account = null;
-
-//   try {
-//     account = await axios.get(`/api/account/${id}`, {
-//       withCredentials: true,
-//       headers: {
-//         Cookie: req.headers.cookie,
-//       },
-//     });
-//     account = account.data;
-//   } catch (e) {
-//     if (e.response) {
-//       console.log(e.response.status);
-//       console.log(e.response.data.message);
-//     } else {
-//       console.log(e);
-//     }
-//   }
-
-//   return {
-//     props: {
-//       account: account,
-//     },
-//   };
-// };

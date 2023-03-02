@@ -171,29 +171,3 @@ const Accounts = (props) => {
 };
 
 export default Accounts;
-
-// export const getServerSideProps = async ({req}) => {
-//   let accounts = null;
-
-//   try {
-//     accounts = await axios.get("/api/accounts/", {
-//       withCredentials: true,
-//       headers: {
-//         Cookie: req.headers.cookie,
-//       },
-//     });
-//     accounts = accounts.data;
-//   } catch (e) {
-//     if (e.response) {
-//       console.log(e.response.status);
-//       console.log(e.response.data.message);
-//     } else {
-//       console.log(e);
-//     }
-//   }
-//   return {
-//     props: {
-//       accounts: accounts,
-//     },
-//   };
-// };

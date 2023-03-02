@@ -254,41 +254,4 @@ const Menu = () => {
   }
 };
 
-// export const getServerSideProps = async ({req, params}) => {
-//   const id = params.id;
-//   let menuRes = null;
-//   let categoriesRes = null;
-
-//   try {
-//     menuRes = await axios.get(`/api/menu/${id}`, {
-//       withCredentials: true,
-//       headers: {
-//         Cookie: req.headers.cookie,
-//       },
-//     });
-//     menuRes = menuRes.data;
-//   } catch (e) {
-//     console.log(e);
-//   }
-
-//   try {
-//     categoriesRes = await axios.get(`/api/categories`);
-//     categoriesRes = categoriesRes.data;
-//   } catch (e) {
-//     if (e.response) {
-//       console.log(e.response.status);
-//       console.log(e.response.data.message);
-//     } else {
-//       console.log(e);
-//     }
-//   }
-
-//   return {
-//     props: {
-//       selectedMenu: menuRes,
-//       categories: categoriesRes,
-//     },
-//   };
-// };
-
 export default Menu;

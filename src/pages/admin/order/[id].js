@@ -207,31 +207,3 @@ const Orders = () => {
   }
 };
 export default Orders;
-
-// export const getServerSideProps = async ({req, params}) => {
-//   const id = params.id;
-//   let order = null;
-
-//   try {
-//     order = await axios.get(`/api/order/${id}`, {
-//       withCredentials: true,
-//       headers: {
-//         Cookie: req.headers.cookie,
-//       },
-//     });
-//     order = order.data;
-//   } catch (e) {
-//     if (e.response) {
-//       console.log(e.response.status);
-//       console.log(e.response.data.message);
-//     } else {
-//       console.log(e);
-//     }
-//   }
-
-//   return {
-//     props: {
-//       order: order,
-//     },
-//   };
-// };
