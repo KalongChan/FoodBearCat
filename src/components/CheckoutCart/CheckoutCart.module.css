@@ -17,6 +17,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  margin-bottom: 10px;
 }
 
 .cart-left {
@@ -50,7 +51,7 @@
 }
 
 .cart-number {
-  width: 40px;
+  width: 25px;
   position: absolute;
   transform: translate(-35%, -70%);
   color: #fff;

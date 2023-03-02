@@ -17,13 +17,7 @@ const CheckoutCart = () => {
           <div className={classes["cart-item"]} key={item._id}>
             <div className={classes["cart-left"]}>
               <div className={classes["item-image"]}>
-                <Image
-                  // src={`/img/Menu/${index}.jpg`}
-                  src="/img/delivery_jitensya.png"
-                  alt=""
-                  height={80}
-                  width={80}
-                ></Image>
+                <Image src={item.image} alt="" height={80} width={80}></Image>
                 <span className={classes["cart-number"]}>{item.quantity}</span>
               </div>
               <div className={classes["item-name"]}>{item.name}</div>
