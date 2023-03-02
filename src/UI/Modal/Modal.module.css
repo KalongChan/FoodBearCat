@@ -32,7 +32,8 @@
 }
 
 .content h2 {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  font-size: 18px;
 }
 
 .content button {
@@ -66,6 +67,7 @@
   .modal {
     width: 90%;
     left: 5%;
-    height: 45%;
+    height: 35%;
+    max-height: 220px;
   }
 }
