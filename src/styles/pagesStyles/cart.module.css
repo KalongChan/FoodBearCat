@@ -37,10 +37,14 @@
   color: #ab3c2a;
 }
 
-.total-amount,
-.check-out-group {
+.total-amount {
   display: flex;
   justify-content: flex-end;
+}
+
+.check-out-group {
+  display: flex;
+  justify-content: center;
 }
 
 .login {

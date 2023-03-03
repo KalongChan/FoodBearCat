@@ -68,12 +68,12 @@ function Cart() {
               ))}
               <h2 className={classes["total-amount"]}>Total: ${totalAmount}</h2>
               {session.status === "unauthenticated" && (
-                <h3 className={classes["check-out-group"]}>
+                <h4>
                   <Link className={classes.login} href="/signin">
                     Login
                   </Link>
                   &nbsp;and track your order status
-                </h3>
+                </h4>
               )}
               <div className={classes["check-out-group"]}>
                 <Link
