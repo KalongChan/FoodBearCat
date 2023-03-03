@@ -36,9 +36,8 @@ const Orders = ({orders}) => {
                   <Image
                     src="/img/internet_nidankai_ninsyou_man.png"
                     alt=""
-                    width={640}
-                    height={560}
-                    layout="responsive"
+                    width={320}
+                    height={280}
                   ></Image>
                 </div>
               </div>

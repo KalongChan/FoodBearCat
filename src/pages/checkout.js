@@ -2,7 +2,7 @@ import CheckoutCart from "@/components/CheckoutCart/CheckoutCart";
 import CheckoutForm from "@/components/CheckoutForm/CheckoutForm";
 import OrderComplete from "@/components/OrderComplete/OrderComplete";
 import ProgressBar from "@/components/ProgressBar/ProgressBar";
-import classes from "@/styles/pagesStyles/chekoutPage.module.css";
+import classes from "@/styles/pagesStyles/checkoutPage.module.css";
 import CartContainer from "@/UI/CartContainer/CartContainer";
 import {useState} from "react";
 import Fade from "react-reveal/Fade";
