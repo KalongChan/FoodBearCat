@@ -49,6 +49,16 @@ MONGODB_DB= #Your Mongodb collection name
 MONGODB_URI= #Your Mongodb connection url
 ```
 
+Insert dummy data into MongoDB
+
+```bash
+  cd src/util
+  node mongodbHelper.js
+  node accountHelper.js
+  cd ../..
+```
+
+
 Start the server
 
 ```bash
