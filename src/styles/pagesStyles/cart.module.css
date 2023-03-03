@@ -26,9 +26,17 @@
   white-space: nowrap;
 }
 
+.login-message {
+  text-align: end;
+}
+
 @media (max-width: 768px) {
   .delete-button {
     width: 80px;
+  }
+
+  .login-message {
+    text-align: center;
   }
 }
 

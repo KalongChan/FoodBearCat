@@ -68,8 +68,9 @@ function Cart() {
               ))}
               <h2 className={classes["total-amount"]}>Total: ${totalAmount}</h2>
               {session.status === "unauthenticated" && (
-                <h4>
+                <h4 className={classes["login-message"]}>
                   <Link className={classes.login} href="/signin">
+                    {" "}
                     Login
                   </Link>
                   &nbsp;and track your order status
