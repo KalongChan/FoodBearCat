@@ -1,6 +1,6 @@
 # FoodBearCat
 
-A fullstack food ordering website build with Next.js, Redux and MongoDB
+A fullstack food ordering website built with Next.js, Redux and MongoDB
 
 # Screenshot
 ![ezgif-1-d3de620484](https://user-images.githubusercontent.com/82305211/222653683-15572532-1dc9-4d12-9f59-2a94b14ee4a8.gif)
